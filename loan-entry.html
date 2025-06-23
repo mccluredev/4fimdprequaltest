@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loan Entry</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #ffffff;
+    }
+  </style>
+</head>
+<body>
+<div class="prequal-flow">
+ <div class="loan-section-container">
+  <div class="homepage-loan-wrapper">
+   <form action="/pre-qualify/?amount=" id="loan-widget-form" method="GET">
+    <div class="form-row">
+     <div class="input-group">
+      <span class="currency-symbol">
+       $
+      </span>
+      <input autocomplete="off" class="loan-amount" id="loan-amount" name="amount" placeholder="Enter loan amount" required="" type="text"/>
+     </div>
+     <button class="apply-button" type="submit">
+      Apply Now
+     </button>
+    </div>
+    <div class="error-message" id="amount-error">
+     Please enter an amount between $1,000 and $1,000,000
+    </div>
+   </form>
+  </div>
+ </div>
+ <script src="js/loan-entry.js">
+ </script>
+</div>
+<script>
+ function sendIframeHeight() {
+      const height = document.documentElement.scrollHeight;
+      window.parent.postMessage({ type: "setIframeHeight", height }, "*");
+    }
+
+    window.addEventListener("load", sendIframeHeight);
+    window.addEventListener("resize", sendIframeHeight);
+</script>
+
+</body>
+</html>

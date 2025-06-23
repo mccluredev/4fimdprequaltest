@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loan Pre-qualification</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYoh0dFh9SX2eIOe7lXesPbUb6lnPhqgU&libraries=places" async defer></script>
+</head>
+<body>
+  <div class="prequal-flow">
+    <div class="container">
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-bar-fill"></div>
+        </div>
+        <div class="progress-text">Step 1 of 4</div>
+      </div>
+
+      <form id="prequalForm" action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8" method="POST" target="_top">
+        <input type="hidden" name="oid" value="00DHs000003XeKL">
+        <input type="hidden" name="retURL" value="https://4fimd.com/complete/?submitted=true">
+        <input type="hidden" name="lead_source" value="Web to Lead">
+
+        <!-- Section 1: Loan Info -->
+        <div class="section" id="section-1">
+          <h2>Loan Information</h2>
+          <div class="loan-summary">
+            <label>Requested Loan Amount:</label>
+            <input type="text" id="00NHs00000lzslH" name="00NHs00000lzslH" class="currency" required>
+          </div>
+
+          <label for="00NHs00000scaqg">What is the purpose of your loan? *</label>
+          <select id="00NHs00000scaqg" name="00NHs00000scaqg" required>
+            <option value="">Select</option>
+            <option value="Emergency loan (ER Loan)">Emergency loan (ER Loan)</option>
+            <option value="Equipment Purchase">Equipment Purchase</option>
+            <option value="Other">Other</option>
+            <option value="Practice Acquisition">Practice Acquisition</option>
+            <option value="Practice Buyout">Practice Buyout</option>
+            <option value="Practice Expansion">Practice Expansion</option>
+            <option value="Start up practice">Start up practice</option>
+            <option value="Working Capital">Working Capital</option>
+          </select>
+
+          <div id="other-purpose" class="hidden">
+            <label for="00NQP000003JB1F">Please specify *</label>
+            <textarea id="00NQP000003JB1F" name="00NQP000003JB1F" wrap="soft" rows="3"></textarea>
+          </div>
+
+          <button type="button" class="next-button">Next</button>
+        </div>
+
+        <!-- Section 2: Credit Info -->
+        <div class="section hidden" id="section-2">
+          <h2>Credit Information</h2>
+          <label for="00NHs00000m08cg">Estimated Credit Score *</label>
+          <select id="00NHs00000m08cg" name="00NHs00000m08cg" required>
+            <option value="">Select</option>
+            <option value="760">760 or higher</option>
+            <option value="720">720 - 759</option>
+            <option value="680">680 - 719</option>
+            <option value="640">640 - 679</option>
+            <option value="639">Below 640</option>
+          </select>
+
+          <label for="00NHs00000m08cl">Estimated Monthly Income *</label>
+          <input type="text" id="00NHs00000m08cl" name="00NHs00000m08cl" class="currency" required>
+
+          <label for="00NHs00000m08cq">Estimated Monthly Debt *</label>
+          <input type="text" id="00NHs00000m08cq" name="00NHs00000m08cq" class="currency" required>
+
+          <div class="button-container">
+            <button type="button" class="back-button">Back</button>
+            <button type="button" class="next-button">Next</button>
+          </div>
+        </div>
+
+        <!-- Section 3: Business Info -->
+        <div class="section hidden" id="section-3">
+          <h2>Business Information</h2>
+          <label for="00NHs00000lzslM">Business Established *</label>
+          <select id="00NHs00000lzslM" name="00NHs00000lzslM" required>
+            <option value="">Select</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+
+          <div id="years-container" class="hidden">
+            <label for="00NHs00000m08cv">Years in Business *</label>
+            <input type="number" id="00NHs00000m08cv" name="00NHs00000m08cv" min="0" max="100">
+          </div>
+
+          <label for="00NHs00000lzslR">Area of Expertise *</label>
+          <select id="00NHs00000lzslR" name="00NHs00000lzslR" required>
+            <option value="">Select</option>
+            <option value="Acupuncturist (LAc, DAOM)">Acupuncturist (LAc, DAOM)</option>
+            <option value="Advanced Practicing Registered Nurse (APRN)">Advanced Practicing Registered Nurse (APRN)</option>
+            <option value="Advanced Registered Nurse Practitioner (ARNP, NP)">Advanced Registered Nurse Practitioner (ARNP, NP)</option>
+            <option value="Certified Registered Nurse Anesthetist (CRNA)">Certified Registered Nurse Anesthetist (CRNA)</option>
+            <option value="Chiropractor (DC)">Chiropractor (DC)</option>
+            <option value="Dental Hygienist (RDH)">Dental Hygienist (RDH)</option>
+            <option value="Dentist (DDS, DMD)">Dentist (DDS, DMD)</option>
+            <option value="Doctor of Physical Therapy (DPT)">Doctor of Physical Therapy (DPT)</option>
+            <option value="Healthcare Administrator (MBA, MHA, FACHE)">Healthcare Administrator (MBA, MHA, FACHE)</option>
+            <option value="Home Health Aide (HHA, PCA, CNA)">Home Health Aide (HHA, PCA, CNA)</option>
+            <option value="Licensed Practical Nurse (LPN, LVN)">Licensed Practical Nurse (LPN, LVN)</option>
+            <option value="Medical Assistant (CMA, RMA, CCMA)">Medical Assistant (CMA, RMA, CCMA)</option>
+            <option value="Medical Laboratory Scientist (MLS, MT, CLS)">Medical Laboratory Scientist (MLS, MT, CLS)</option>
+            <option value="Mental Health Counselor (LPC, LMHC, NCC)">Mental Health Counselor (LPC, LMHC, NCC)</option>
+            <option value="Naturopathic Doctor (ND, NMD)">Naturopathic Doctor (ND, NMD)</option>
+            <option value="Occupational Therapist (OTR, OTD)">Occupational Therapist (OTR, OTD)</option>
+            <option value="Optometrist (OD)">Optometrist (OD)</option>
+            <option value="Osteopath (DO)">Osteopath (DO)</option>
+            <option value="Other">Other</option>
+            <option value="Paramedic (EMT-P, NRP)">Paramedic (EMT-P, NRP)</option>
+            <option value="Pharmacist (PharmD, RPh)">Pharmacist (PharmD, RPh)</option>
+            <option value="Physical Therapist (PT, DPT)">Physical Therapist (PT, DPT)</option>
+            <option value="Physician/Surgeon (MD, DO)">Physician/Surgeon (MD, DO)</option>
+            <option value="Physician Assistant (PA, PA-C)">Physician Assistant (PA, PA-C)</option>
+            <option value="Podiatrist (DPM)">Podiatrist (DPM)</option>
+            <option value="Psychologist (PhD, PsyD, EdD)">Psychologist (PhD, PsyD, EdD)</option>
+            <option value="Radiologic Technologist (RT, ARRT)">Radiologic Technologist (RT, ARRT)</option>
+            <option value="Registered Nurse (RN)">Registered Nurse (RN)</option>
+            <option value="Respiratory Therapist (RRT, CRT)">Respiratory Therapist (RRT, CRT)</option>
+            <option value="Social Worker (LCSW, MSW, LICSW)">Social Worker (LCSW, MSW, LICSW)</option>
+            <option value="Speech-Language Pathologist (SLP, CCC-SLP)">Speech-Language Pathologist (SLP, CCC-SLP)</option>
+            <option value="Surgical Technologist (CST, CRCST)">Surgical Technologist (CST, CRCST)</option>
+            <option value="Veterinarian (DVM)">Veterinarian (DVM)</option>
+            <option value="Veterinary Technician (RVT, LVT, CVT)">Veterinary Technician (RVT, LVT, CVT)</option>
+        </select>
+
+          <div class="button-container">
+            <button type="button" class="back-button">Back</button>
+            <button type="button" class="next-button">Next</button>
+          </div>
+        </div>
+
+        <!-- Section 4: Personal Info -->
+        <div class="section hidden" id="section-4">
+          <h2>Personal Information</h2>
+          <label for="first_name">First Name *</label>
+          <input type="text" id="first_name" name="first_name" required pattern="[A-Za-z ]+" title="Please enter letters only">
+
+          <label for="last_name">Last Name *</label>
+          <input type="text" id="last_name" name="last_name" required pattern="[A-Za-z ]+" title="Please enter letters only">
+
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" required>
+
+          <label for="mobile">Mobile Phone *</label>
+          <input type="tel" id="mobile" name="mobile" required placeholder="(XXX) XXX-XXXX">
+
+          <label for="autocomplete">Address *</label>
+          <input type="text" id="autocomplete" placeholder="Start typing your address">
+          <input type="hidden" id="street" name="street">
+          <input type="hidden" id="city" name="city">
+          <input type="hidden" id="state" name="state">
+          <input type="hidden" id="zip" name="zip">
+
+          <input type="hidden" id="loan_amount_param" name="loan_amount_param">
+          <input type="hidden" id="loan_purpose_param" name="loan_purpose_param">
+
+          <div class="button-container">
+            <button type="button" class="back-button">Back</button>
+            <button type="submit" class="submit-button">Submit Application and View My Estimate</button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Payment Calculator -->
+      <div class="section hidden" id="payment-calculator">
+        <h2>Your Estimated Payment</h2>
+        <div class="calculator-container">
+          <div class="rate-info">
+            <h3>Your Rate Information</h3>
+            <p id="rate-text"></p>
+          </div>
+          <div class="payment-display">
+            <label>Estimated Monthly Payment:</label>
+            <div id="monthly-payment" class="amount"></div>
+          </div>
+          <div class="term-slider-container">
+            <label for="term-slider">Adjust Loan Term</label>
+            <input type="range" id="term-slider" class="term-slider" min="6" max="144" step="6" value="60">
+            <div class="term-labels">
+              <span>6 months</span>
+              <span id="current-term">60 months</span>
+              <span>144 months</span>
+            </div>
+          </div>
+          <a href="https://4fimd.com" class="return-home">Return to Home</a>
+        </div>
+      </div>
+
+      <!-- Loading Screen -->
+      <div id="loading-screen" class="hidden">
+        <h2>Calculating your estimate...</h2>
+        <div class="spinner"></div>
+      </div>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const urlParams = new URLSearchParams(window.location.search);
+          const amount = urlParams.get('amount');
+
+          if (amount) {
+            const displayInput = document.getElementById('00NHs00000lzslH');
+            if (displayInput) {
+              const formatted = parseInt(amount).toLocaleString();
+              displayInput.value = `$${formatted}`;
+            }
+
+            const hiddenLoanField = document.getElementById('loan_amount_param');
+            if (hiddenLoanField) {
+              hiddenLoanField.value = amount;
+            }
+          }
+        });
+      </script>
+      <script src="js/pre-qual.js" defer></script>
+    </div>
+  </div>
+</body>
+</html>
