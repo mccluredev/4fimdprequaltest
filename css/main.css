@@ -1,14 +1,124 @@
-/* ===================================
-   Prequalification Scoped Styles (Rebranded)
-   =================================== */
+/* Load AtHauss from Squarespace CDN */
+@font-face {
+  font-family: 'AtHauss';
+  src: url('https://static1.squarespace.com/static/6823723b472b7d701bd2f75c/t/68238ad816e14b4b03243872/1747159768869/AtHaussAero-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 .prequal-flow {
+  font-family: 'AtHauss', sans-serif;
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Hide sections by default */
+.section.hidden {
+  display: none;
+}
+
+/* Style form elements */
+.prequal-flow input[type="text"],
+.prequal-flow input[type="email"],
+.prequal-flow input[type="tel"],
+.prequal-flow input[type="number"],
+.prequal-flow select,
+.prequal-flow textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-family: 'AtHauss', sans-serif;
+  box-sizing: border-box;
+}
+
+/* Buttons */
+.prequal-flow .next-button,
+.prequal-flow .back-button,
+.prequal-flow .submit-button,
+.prequal-flow .btn {
+  background-color: #2c5282;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'AtHauss', sans-serif;
+}
+
+.prequal-flow .btn:hover,
+.prequal-flow .next-button:hover,
+.prequal-flow .back-button:hover,
+.prequal-flow .submit-button:hover {
+  background-color: #1a365d;
+}
+
+/* Hide calculator and completion screen by default */
+#payment-calculator,
+#completion-screen,
+#loading-screen {
+  display: none;
+}
+
+/* Show them if body has .submitted class (JavaScript will toggle this) */
+body.submitted #payment-calculator,
+body.submitted #completion-screen {
+  display: block;
+}
+
+/* Progress bar */
+.progress-container {
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  background-color: #e0e0e0;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  background-color: #2c5282;
+  height: 100%;
+  width: 0;
+  transition: width 0.4s ease;
+}
+
+.progress-text {
+  text-align: right;
+  font-size: 14px;
+  margin-top: 4px;
+  color: #333;
+}
+
+/* Responsive form tweaks */
+@media (max-width: 600px) {
+  .prequal-flow {
+    padding: 10px;
+  }
+
+  .prequal-flow .btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+/* ================================
+   4Fi Rebranded + Structural Styles
+   ================================ */
+
+:root {
   --brand-ice-blue: #2FCAB2;
   --brand-space-cadet: #222F4F;
   --brand-baby-powder: #FAF8F2;
   --brand-charcoal: #2D495A;
   --brand-accent-blue: #7AE3D2;
   --brand-indian-red: #DB5461;
+  --brand-raisin-black: #202328;
   --font-primary: 'At Hauss Aero', sans-serif;
 
   --color-bg: var(--brand-baby-powder);
@@ -18,18 +128,23 @@
   --color-error: var(--brand-indian-red);
 }
 
-.prequal-flow html, .prequal-flow body {
+.prequal-flow .hidden {
+  display: none !important;
+}
+
+.prequal-flow html,
+.prequal-flow body {
+  overflow: hidden;
+  height: 100%;
   background-color: var(--color-bg) !important;
   font-family: var(--font-primary);
   color: var(--color-text);
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
   margin: 0;
   padding: 10px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  height: 100%;
-  overflow: hidden;
 }
 
 .prequal-flow .container {
@@ -41,97 +156,15 @@
   min-width: 600px;
 }
 
-/* Utility Classes */
-.prequal-flow .hidden { display: none !important; }
-
-/* Progress Bar */
-.prequal-flow .progress-container { margin-bottom: 20px; }
-.prequal-flow .progress-bar {
-  width: 100%; height: 10px;
-  background-color: #e0e0e0;
-  border-radius: 5px;
-  overflow: hidden;
-  position: relative;
-}
-.prequal-flow .progress-bar-fill {
-  height: 100%;
-  background-color: var(--color-accent);
-  width: 25%;
-  transition: width 0.3s ease;
-  position: absolute; top: 0; left: 0;
-}
-.prequal-flow .progress-text {
-  text-align: center;
-  margin-top: 5px;
-  font-size: 14px;
-}
-
-/* Sections */
-.prequal-flow .section {
-  background-color: white;
-  border-radius: 8px;
-  padding: 40px 60px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  max-width: 800px;
-  margin: 0 auto;
-  transition: transform 0.5s ease, opacity 0.5s ease;
-  transform: translateX(0);
-  opacity: 1;
-}
-
-/* Section Transitions */
-.prequal-flow .slide-enter { transform: translateX(100%); opacity: 0; }
-.prequal-flow .slide-enter-active { transform: translateX(0); opacity: 1; }
-.prequal-flow .slide-exit-active { transform: translateX(-100%); opacity: 0; }
-.prequal-flow .slide-back-enter { transform: translateX(-100%); opacity: 0; }
-.prequal-flow .slide-back-enter-active { transform: translateX(0); opacity: 1; }
-.prequal-flow .slide-back-exit-active { transform: translateX(100%); opacity: 0; }
-
-/* Inputs and Labels */
-.prequal-flow label {
-  display: block;
-  font-size: 0.875rem;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: var(--color-border);
-}
-
-.prequal-flow input,
-.prequal-flow select,
-.prequal-flow textarea {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 0.75rem;
-  font-size: 1rem;
-  background-color: white;
-  font-family: var(--font-primary);
-  color: var(--color-text);
-  margin-bottom: 1rem;
-  transition: all 0.3s ease;
-}
-
-.prequal-flow input:focus,
-.prequal-flow select:focus,
-.prequal-flow textarea:focus {
-  border-color: var(--color-accent);
-  box-shadow: 0 0 0 2px rgba(47, 202, 178, 0.2);
-  outline: none;
-}
-
-/* Buttons */
 .prequal-flow button,
 .prequal-flow .apply-button,
 .prequal-flow .submit-button {
-  background-color: var(--color-accent);
-  color: var(--color-text);
-  border-radius: 9999px;
+  background-color: var(--color-accent) !important;
+  color: var(--color-text) !important;
+  border-radius: 9999px !important;
   font-family: var(--font-primary);
   font-weight: 600;
-  padding: 8px 16px;
-  font-size: 14px;
-  border: none;
-  cursor: pointer;
+  box-shadow: none;
   transition: box-shadow 0.3s ease;
 }
 
@@ -142,121 +175,102 @@
 }
 
 .prequal-flow .back-button {
-  background-color: var(--color-border);
-  color: white;
+  background-color: var(--color-border) !important;
+  color: white !important;
 }
 
 .prequal-flow .back-button:hover {
   box-shadow: 0 4px 12px rgba(34, 47, 79, 0.3);
 }
 
-/* Error Handling */
-.prequal-flow .error-input {
-  border-color: var(--color-error);
-  background-color: #fff0f0;
-}
-
-/* Calculator */
-.prequal-flow .calculator-container {
-  text-align: center;
-  padding: 20px;
-}
-
-.prequal-flow .rate-info h3,
-.prequal-flow .payment-display .amount,
-.prequal-flow .completion-page h1,
-.prequal-flow .completion-page h3 {
-  color: var(--color-accent);
-}
-
-.prequal-flow .payment-display {
-  margin: 20px 0;
-  text-align: center;
-}
-
-.prequal-flow .payment-display label {
-  font-size: 14px;
+.prequal-flow input,
+.prequal-flow select,
+.prequal-flow textarea {
+  background-color: white;
+  border-radius: 0.75rem;
+  border: 1px solid #ccc;
+  font-family: var(--font-primary);
   color: var(--color-text);
 }
 
-.prequal-flow .payment-display .amount {
-  font-size: 36px;
-  font-weight: bold;
-  margin: 10px 0;
+.prequal-flow input:focus,
+.prequal-flow select:focus,
+.prequal-flow textarea:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px rgba(47, 202, 178, 0.2);
 }
 
-/* Term Slider */
-.prequal-flow .term-slider-container {
-  margin: 20px 0;
+.prequal-flow label {
+  color: var(--color-border);
+  font-family: var(--font-primary);
 }
 
-.prequal-flow .term-slider {
-  width: 100%;
-  height: 8px;
-  border-radius: 4px;
-  background: #e0e0e0;
-  outline: none;
-  margin: 15px 0;
+.prequal-flow .progress-bar-fill {
+  background-color: var(--color-accent);
+}
+
+.prequal-flow .error-input {
+  border-color: var(--color-error) !important;
+  background-color: #fff0f0 !important;
+}
+
+.prequal-flow .spinner {
+  border-top: 5px solid var(--color-accent) !important;
+}
+
+.prequal-flow .payment-display .amount,
+.prequal-flow .rate-info h3,
+.prequal-flow .completion-page h1,
+.prequal-flow .completion-page h3 {
+  color: var(--color-accent) !important;
 }
 
 .prequal-flow .term-slider::-webkit-slider-thumb,
 .prequal-flow .term-slider::-moz-range-thumb {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--color-accent);
-  cursor: pointer;
-  border: none;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  background: var(--color-accent) !important;
 }
 
-.prequal-flow .term-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: var(--color-text);
-  margin-top: 5px;
+.prequal-flow .completion-page h2 {
+  color: var(--color-border);
 }
 
-.prequal-flow #current-term {
-  font-weight: bold;
+.prequal-flow .term-labels,
+.prequal-flow .payment-display label {
+  color: var(--color-text) !important;
 }
 
-/* Loading Spinner */
-.prequal-flow .spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border-left-color: var(--color-accent);
-  animation: spin 1s linear infinite;
-  margin: 20px auto;
+.prequal-flow input[type="tel"] {
+  letter-spacing: 0.5px;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.prequal-flow input[type="email"] {
+  font-family: var(--font-primary);
 }
 
-/* Responsive Design */
+/* Responsive Adjustments from WP CSS */
 @media (max-width: 768px) {
   .prequal-flow .container {
     width: 100%;
     padding: 10px;
     min-width: auto;
   }
-  .prequal-flow .button-container {
+  .prequal-flow .form-row {
     flex-direction: column;
-  }
-  .prequal-flow button {
-    width: 100%;
-    margin: 5px 0;
   }
   .prequal-flow .term-labels {
     flex-direction: column;
     align-items: center;
   }
   .prequal-flow .amount {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  .prequal-flow .payment-display .amount {
     font-size: 28px;
+  }
+  .prequal-flow .container {
+    padding: 10px;
   }
 }
