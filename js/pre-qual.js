@@ -1,3 +1,22 @@
+document.addEventListener('DOMContentLoaded', function () {
+  const urlParams = new URLSearchParams(window.location.search);
+  const isSubmitted = urlParams.get('submitted') === 'true';
+
+  const formSections = document.querySelectorAll('.section');
+  const calculator = document.getElementById('payment-calculator');
+  const completion = document.getElementById('completion-screen');
+
+  if (isSubmitted) {
+    // User has submitted — show results
+    formSections.forEach(section => section.classList.add('hidden'));
+    if (calculator) calculator.classList.remove('hidden');
+    if (completion) completion.classList.remove('hidden');
+  } else {
+    // User is still filling form — show form only
+    if (calculator) calculator.classList.add('hidden');
+    if (completion) completion.classList.add('hidden');
+  }
+    
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Script loaded and running!");
 
