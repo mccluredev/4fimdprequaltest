@@ -14,6 +14,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const progressText = document.querySelector('.progress-text');
     const form = document.getElementById("prequalForm");
     const paymentCalculator = document.getElementById('payment-calculator');
+    const completionScreen = document.getElementById('completion-screen');
+    const urlParams = new URLSearchParams(window.location.search);
+    const isSubmitted = urlParams.get('submitted') === 'true';
+
+if (isSubmitted) {
+    // Hide form sections, show completion screen + calculator
+    sections.forEach(section => section.classList.add('hidden'));
+    if (completionScreen) completionScreen.classList.remove('hidden');
+    if (paymentCalculator) paymentCalculator.classList.remove('hidden');
+} else {
+    // Hide calculator and completion screen during the form flow
+    if (completionScreen) completionScreen.classList.add('hidden');
+    if (paymentCalculator) paymentCalculator.classList.add('hidden');
+}
+
     const loadingScreen = document.getElementById('loading-screen');
     
     // Check if sections exist
