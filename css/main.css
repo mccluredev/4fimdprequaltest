@@ -17,10 +17,9 @@
   --color-border: var(--brand-space-cadet);
   --color-accent: var(--brand-ice-blue);
   --color-error: var(--brand-indian-red);
-   .hidden {
-  display: none !important;
-}
 
+}.prequal-flow .hidden {
+  display: none !important;
 }.prequal-flow html, .prequal-flow body {
   overflow: hidden;
   height: 100%;
