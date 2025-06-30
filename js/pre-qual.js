@@ -62,16 +62,21 @@ if (businessEstablished) {
   loadingScreen = document.getElementById("loading-screen");
 
   if (isSubmitted) {
-    console.log("💡 In 'submitted' mode");
-    formSections.forEach(section => section.classList.add('hidden'));
-    if (calculator) calculator.classList.remove('hidden');
+  console.log("💡 In 'submitted' mode");
+  
+  // Hide all sections
+  formSections.forEach(section => section.classList.add('hidden'));
+
+  // Show loading screen
+  if (loadingScreen) loadingScreen.classList.remove('hidden');
+
+  // Simulate processing delay and then show result
+  setTimeout(() => {
+    if (loadingScreen) loadingScreen.classList.add('hidden');
     if (completion) completion.classList.remove('hidden');
-  } else {
-    console.log("💡 In form mode");
-    if (calculator) calculator.classList.add('hidden');
-    if (completion) completion.classList.add('hidden');
-    showSection(0);
-  }
+    updatePaymentCalculator(); // make sure this updates AFTER DOM is visible
+  }, 1500);
+}
 
   // === INPUT FORMATTING ===
   document.querySelectorAll('.currency:not([readonly])').forEach(input => {
