@@ -280,10 +280,11 @@ function calculateMonthlyPayment(p, r, t) {
 function updatePaymentCalculator() {
   const amtField = document.getElementById('00NHs00000lzslH');
   const scoreField = document.getElementById('00NHs00000m08cg');
-  const slider = document.getElementById('term-slider');
-  const display = document.getElementById('monthly-payment');
   const rateLabel = document.getElementById('rate-text');
-  const termLabel = document.getElementById('current-term');
+  const termSlider = document.getElementById('term-slider-completion');
+  const currentTerm = document.getElementById('current-term-completion');
+  const monthlyPaymentDisplay = document.getElementById('monthly-payment-completion');
+
 
   const amt = parseInt(amtField.value.replace(/[^0-9]/g, ''));
   const score = scoreField.value;
@@ -301,7 +302,8 @@ function updatePaymentCalculator() {
     style: 'currency', currency: 'USD'
   });
   rateLabel.textContent = `Your estimated interest rate is ${rate}% APR`;
-  termLabel.textContent = `${term} months`;
+  currentTerm.textContent = `${term} months`;
+
 }
 
 const slider = document.getElementById('term-slider');
