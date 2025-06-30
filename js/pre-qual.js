@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const calculator = document.getElementById('payment-calculator');
   const completion = document.getElementById('completion-screen');
 
+  // Show calculator if redirected from Salesforce with submitted=true
   if (isSubmitted) {
     formSections.forEach(section => section.classList.add('hidden'));
     if (calculator) calculator.classList.remove('hidden');
@@ -15,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (completion) completion.classList.add('hidden');
   }
 
-  // Main logic starts here
   let currentSectionIndex = 0;
 
   const sections = document.querySelectorAll('.section');
@@ -40,20 +40,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   showSection(0);
-
-  function calculateTermRange(loanAmount) {
-    if (loanAmount <= 10000) return { minTerm: 6, maxTerm: 48 };
-    if (loanAmount <= 75000) return { minTerm: 36, maxTerm: 120 };
-    if (loanAmount <= 150000) return { minTerm: 60, maxTerm: 144 };
-    return { minTerm: 84, maxTerm: 144 };
-  }
-
-  const loanAmountParam = urlParams.get('amount');
-  if (loanAmountParam && !isNaN(parseInt(loanAmountParam))) {
-    const input = document.getElementById('00NHs00000lzslH');
-    const value = parseInt(loanAmountParam.replace(/[^0-9]/g, ''));
-    if (input && !input.value) input.value = `$${value.toLocaleString()}`;
-  }
 
   function initializeGooglePlaces() {
     const addressInput = document.getElementById("autocomplete");
@@ -211,6 +197,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  // Form submit handler to inject retURL with query params
   if (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -220,11 +207,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const loanAmountField = document.getElementById('00NHs00000lzslH');
       const loanPurposeField = document.getElementById('00NHs00000scaqg');
-      const loanAmount = loanAmountField ? loanAmountField.value : '';
+      const loanAmount = loanAmountField ? loanAmountField.value.replace(/[^0-9]/g, '') : '';
       const loanPurpose = loanPurposeField ? loanPurposeField.value : '';
 
-      localStorage.setItem('loan_amount', loanAmount);
+      // Save to localStorage for use in completion screen
+      localStorage.setItem('loan_amount', `$${parseInt(loanAmount).toLocaleString()}`);
       localStorage.setItem('loan_purpose', loanPurpose);
+
+      const retInput = document.querySelector('input[name="retURL"]');
+      retInput.value = `https://prequal.4fimd.com/?submitted=true&amount=${loanAmount}&purpose=${encodeURIComponent(loanPurpose)}`;
 
       const formData = new FormData(form);
       const obj = {};
@@ -232,7 +223,18 @@ document.addEventListener('DOMContentLoaded', function () {
       localStorage.setItem('prequalFormData', JSON.stringify(obj));
       localStorage.setItem('formSubmitted', 'true');
 
+      // Allow native submit after retURL is updated
       form.submit();
     });
+  }
+
+  // Delay clearing localStorage in calculator DOM to avoid race condition
+  if (isSubmitted) {
+    setTimeout(() => {
+      localStorage.removeItem('formSubmitted');
+      localStorage.removeItem('prequalFormData');
+      localStorage.removeItem('loan_amount');
+      localStorage.removeItem('loan_purpose');
+    }, 2000);
   }
 });
