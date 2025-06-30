@@ -20,20 +20,35 @@
     }
 
     .payment-display .amount {
-      font-size: 48px;
+      font-size: 52px;
       font-weight: bold;
       color: var(--color-accent);
       margin: 12px 0;
     }
 
     .term-slider-container {
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       margin: 24px 0;
     }
 
     .term-slider {
       width: 80%;
       margin: 0 auto;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    .term-slider::-webkit-slider-thumb:focus,
+    .term-slider::-webkit-slider-thumb:active,
+    .term-slider::-webkit-slider-thumb:hover,
+    .term-slider::-moz-range-thumb:focus,
+    .term-slider::-moz-range-thumb:active,
+    .term-slider::-moz-range-thumb:hover {
+      outline: none !important;
+      box-shadow: none !important;
+      border: none !important;
     }
 
     .term-labels {
@@ -42,6 +57,7 @@
       margin-top: 8px;
       font-size: 14px;
       color: var(--color-text);
+      width: 80%;
     }
 
     .disclaimer {
@@ -87,7 +103,6 @@
         </div>
 
         <div class="term-slider-container">
-          <label for="term-slider">Adjust Loan Term</label>
           <input type="range" id="term-slider" class="term-slider" min="6" max="144" step="6" value="60">
           <div class="term-labels">
             <span>6 months</span>
