@@ -150,10 +150,8 @@ body.submitted #completion-screen {
 .prequal-flow .container {
   width: 100%;
   max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  position: relative;
 }
+
 
 .prequal-flow button,
 .prequal-flow .apply-button,
@@ -247,13 +245,13 @@ body.submitted #completion-screen {
 }
 
 .prequal-flow {
-  display: block;
-  max-width: 800px;
-  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   padding: 20px;
   box-sizing: border-box;
 }
-
 
 /* Responsive Adjustments from WP CSS */
 @media (max-width: 768px) {
