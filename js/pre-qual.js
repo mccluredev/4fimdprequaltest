@@ -1,12 +1,19 @@
+// Unified prequal + calculator script with slide animations
+
 document.addEventListener('DOMContentLoaded', function () {
   const urlParams = new URLSearchParams(window.location.search);
   const isSubmitted = urlParams.get('submitted') === 'true';
+  const form = document.getElementById("prequalForm");
 
   const formSections = document.querySelectorAll('.section');
   const calculator = document.getElementById('payment-calculator');
   const completion = document.getElementById('completion-screen');
+  const loadingScreen = document.getElementById('loading-screen');
 
-  // Show calculator if redirected from Salesforce with submitted=true
+  let currentSectionIndex = 0;
+  let isAnimating = false;
+
+  // === STATE INIT ===
   if (isSubmitted) {
     formSections.forEach(section => section.classList.add('hidden'));
     if (calculator) calculator.classList.remove('hidden');
@@ -16,89 +23,43 @@ document.addEventListener('DOMContentLoaded', function () {
     if (completion) completion.classList.add('hidden');
   }
 
-  let currentSectionIndex = 0;
-
-  const sections = document.querySelectorAll('.section');
-  const progressBar = document.querySelector('.progress-bar-fill');
-  const progressText = document.querySelector('.progress-text');
-  const form = document.getElementById("prequalForm");
-  const loadingScreen = document.getElementById('loading-screen');
-
+  // === FORM FLOW ===
   function showSection(index) {
-    if (index < 0 || index >= sections.length) return;
-    sections.forEach(section => section.classList.add('hidden'));
-    sections[index].classList.remove('hidden');
-    currentSectionIndex = index;
-    updateProgressBar(index);
+    if (index < 0 || index >= formSections.length || isAnimating) return;
+    isAnimating = true;
+
+    const currentSection = formSections[currentSectionIndex];
+    const nextSection = formSections[index];
+
+    nextSection.classList.remove('hidden');
+    nextSection.classList.add('slide-enter');
+    void nextSection.offsetWidth; // force reflow
+
+    currentSection.classList.add('slide-exit-active');
+    nextSection.classList.add('slide-enter-active');
+
+    setTimeout(() => {
+      currentSection.classList.add('hidden');
+      currentSection.classList.remove('slide-exit-active');
+      nextSection.classList.remove('slide-enter', 'slide-enter-active');
+      currentSectionIndex = index;
+      updateProgressBar(index);
+      isAnimating = false;
+    }, 500);
   }
 
   function updateProgressBar(index) {
-    const totalSections = sections.length;
-    const progress = ((index + 1) / totalSections) * 100;
-    if (progressBar) progressBar.style.width = progress + '%';
-    if (progressText) progressText.textContent = `Step ${index + 1} of ${totalSections}`;
+    const progressBar = document.querySelector('.progress-bar-fill');
+    const progressText = document.querySelector('.progress-text');
+    const total = formSections.length;
+    const percent = ((index + 1) / total) * 100;
+    if (progressBar) progressBar.style.width = `${percent}%`;
+    if (progressText) progressText.textContent = `Step ${index + 1} of ${total}`;
   }
 
   showSection(0);
 
-  function initializeGooglePlaces() {
-    const addressInput = document.getElementById("autocomplete");
-    if (!addressInput) return;
-    const options = { types: ['address'], componentRestrictions: { country: 'us' } };
-    const autocomplete = new google.maps.places.Autocomplete(addressInput, options);
-
-    google.maps.event.addListener(autocomplete, "place_changed", function () {
-      const place = autocomplete.getPlace();
-      let streetNumber = "", route = "", city = "", state = "", zipCode = "";
-      for (const component of place.address_components || []) {
-        const type = component.types[0];
-        switch (type) {
-          case "street_number": streetNumber = component.long_name; break;
-          case "route": route = component.long_name; break;
-          case "locality": city = component.long_name; break;
-          case "administrative_area_level_1": state = component.short_name; break;
-          case "postal_code": zipCode = component.long_name; break;
-        }
-      }
-      document.getElementById("street").value = `${streetNumber} ${route}`.trim();
-      document.getElementById("city").value = city;
-      document.getElementById("state").value = state;
-      document.getElementById("zip").value = zipCode;
-    });
-  }
-
-  window.onload = function () {
-    if (typeof google !== "undefined" && google.maps && google.maps.places) {
-      initializeGooglePlaces();
-    }
-  };
-
-  const loanPurpose = document.getElementById('00NHs00000scaqg');
-  const otherPurpose = document.getElementById('other-purpose');
-  const otherPurposeText = document.getElementById('00NQP000003JB1F');
-
-  if (loanPurpose) {
-    loanPurpose.addEventListener('change', function () {
-      const isOther = this.value === 'Other';
-      otherPurpose.classList.toggle('hidden', !isOther);
-      otherPurposeText.required = isOther;
-      if (!isOther) otherPurposeText.value = '';
-    });
-  }
-
-  const businessEstablished = document.getElementById('00NHs00000lzslM');
-  const yearsContainer = document.getElementById('years-container');
-  const yearsInput = document.getElementById('00NHs00000m08cv');
-
-  if (businessEstablished) {
-    businessEstablished.addEventListener('change', function () {
-      const isEstablished = this.value === 'Yes';
-      yearsContainer.classList.toggle('hidden', !isEstablished);
-      yearsInput.required = isEstablished;
-      if (!isEstablished) yearsInput.value = '';
-    });
-  }
-
+  // === INPUT FORMATTING ===
   document.querySelectorAll('.currency:not([readonly])').forEach(input => {
     input.addEventListener('blur', e => {
       let val = e.target.value.replace(/[^0-9]/g, '');
@@ -120,21 +81,37 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // === FORM NAVIGATION ===
+  document.querySelectorAll('.next-button').forEach(button => {
+    button.addEventListener('click', e => {
+      e.preventDefault();
+      const current = formSections[currentSectionIndex];
+      if (validateSection(current)) {
+        if (currentSectionIndex === 3) updatePaymentCalculator();
+        showSection(currentSectionIndex + 1);
+      }
+    });
+  });
+
+  document.querySelectorAll('.back-button').forEach(button => {
+    button.addEventListener('click', e => {
+      e.preventDefault();
+      if (currentSectionIndex > 0) showSection(currentSectionIndex - 1);
+    });
+  });
+
+  // === LOGIC ===
   function validateSection(section) {
     const inputs = section.querySelectorAll('input[required], select[required], textarea[required]');
-    let isValid = true;
+    let valid = true;
     inputs.forEach(input => {
       const val = input.value.trim();
-      if (input.type === 'email') {
-        isValid = /^\S+@\S+\.\S+$/.test(val) && isValid;
-      } else if (input.type === 'tel') {
-        isValid = /^\(\d{3}\) \d{3}-\d{4}$/.test(val) && isValid;
-      } else {
-        isValid = val !== '' && isValid;
-      }
-      input.classList.toggle('error-input', !isValid);
+      if (input.type === 'email') valid = /^\S+@\S+\.\S+$/.test(val) && valid;
+      else if (input.type === 'tel') valid = /^\(\d{3}\) \d{3}-\d{4}$/.test(val) && valid;
+      else valid = val !== '' && valid;
+      input.classList.toggle('error-input', !valid);
     });
-    return isValid;
+    return valid;
   }
 
   function calculateInterestRate(score, amt) {
@@ -153,69 +130,52 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function updatePaymentCalculator() {
-    const loanAmtField = document.getElementById('00NHs00000lzslH');
-    const creditScoreField = document.getElementById('00NHs00000m08cg');
-    const termSlider = document.getElementById('term-slider');
-    const monthlyDisplay = document.getElementById('monthly-payment');
-    const rateText = document.getElementById('rate-text');
-    const currentTerm = document.getElementById('current-term');
+    const amtField = document.getElementById('00NHs00000lzslH');
+    const scoreField = document.getElementById('00NHs00000m08cg');
+    const slider = document.getElementById('term-slider');
+    const display = document.getElementById('monthly-payment');
+    const rateLabel = document.getElementById('rate-text');
+    const termLabel = document.getElementById('current-term');
 
-    const amount = parseInt(loanAmtField.value.replace(/[^0-9]/g, ''));
-    const score = creditScoreField.value;
-    const rate = calculateInterestRate(score, amount);
-    const term = parseInt(termSlider.value);
+    const amt = parseInt(amtField.value.replace(/[^0-9]/g, ''));
+    const score = scoreField.value;
+    const term = parseInt(slider.value);
+    const rate = calculateInterestRate(score, amt);
 
-    if (rate === null) {
-      rateText.textContent = 'Contact us for rate details.';
-      monthlyDisplay.textContent = 'Contact us';
+    if (!rate) {
+      rateLabel.textContent = 'Contact us for rate details.';
+      display.textContent = 'Contact us';
       return;
     }
 
-    const payment = calculateMonthlyPayment(amount, rate, term);
-    monthlyDisplay.textContent = payment.toLocaleString('en-US', {
+    const payment = calculateMonthlyPayment(amt, rate, term);
+    display.textContent = payment.toLocaleString('en-US', {
       style: 'currency', currency: 'USD'
     });
-    rateText.textContent = `Your estimated interest rate is ${rate}% APR`;
-    currentTerm.textContent = `${term} months`;
+    rateLabel.textContent = `Your estimated interest rate is ${rate}% APR`;
+    termLabel.textContent = `${term} months`;
   }
 
-  document.querySelectorAll('.next-button').forEach(button => {
-    button.addEventListener('click', e => {
-      e.preventDefault();
-      const currentSection = sections[currentSectionIndex];
-      if (validateSection(currentSection)) {
-        if (currentSectionIndex === 3) updatePaymentCalculator();
-        showSection(currentSectionIndex + 1);
-      }
-    });
-  });
+  const slider = document.getElementById('term-slider');
+  if (slider) slider.addEventListener('input', updatePaymentCalculator);
 
-  document.querySelectorAll('.back-button').forEach(button => {
-    button.addEventListener('click', e => {
-      e.preventDefault();
-      if (currentSectionIndex > 0) showSection(currentSectionIndex - 1);
-    });
-  });
-
-  // Form submit handler to inject retURL with query params
   if (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (!validateSection(sections[currentSectionIndex])) return;
+      if (!validateSection(formSections[currentSectionIndex])) return;
 
       if (loadingScreen) loadingScreen.classList.remove('hidden');
 
-      const loanAmountField = document.getElementById('00NHs00000lzslH');
-      const loanPurposeField = document.getElementById('00NHs00000scaqg');
-      const loanAmount = loanAmountField ? loanAmountField.value.replace(/[^0-9]/g, '') : '';
-      const loanPurpose = loanPurposeField ? loanPurposeField.value : '';
+      const amtField = document.getElementById('00NHs00000lzslH');
+      const purposeField = document.getElementById('00NHs00000scaqg');
+      const amount = amtField ? amtField.value.replace(/[^0-9]/g, '') : '';
+      const purpose = purposeField ? purposeField.value : '';
 
-      // Save to localStorage for use in completion screen
-      localStorage.setItem('loan_amount', `$${parseInt(loanAmount).toLocaleString()}`);
-      localStorage.setItem('loan_purpose', loanPurpose);
+      localStorage.setItem('loan_amount', `$${parseInt(amount).toLocaleString()}`);
+      localStorage.setItem('loan_purpose', purpose);
 
       const retInput = document.querySelector('input[name="retURL"]');
-      retInput.value = `https://prequal.4fimd.com/?submitted=true&amount=${loanAmount}&purpose=${encodeURIComponent(loanPurpose)}`;
+      retInput.value = `https://prequal.4fimd.com/?submitted=true&amount=${amount}&purpose=${encodeURIComponent(purpose)}`;
 
       const formData = new FormData(form);
       const obj = {};
@@ -223,13 +183,28 @@ document.addEventListener('DOMContentLoaded', function () {
       localStorage.setItem('prequalFormData', JSON.stringify(obj));
       localStorage.setItem('formSubmitted', 'true');
 
-      // Allow native submit after retURL is updated
       form.submit();
     });
   }
 
-  // Delay clearing localStorage in calculator DOM to avoid race condition
   if (isSubmitted) {
+    const loanAmount = urlParams.get('amount') || localStorage.getItem('loan_amount') || '$0';
+    const purpose = urlParams.get('purpose') || localStorage.getItem('loan_purpose') || 'Not specified';
+
+    document.getElementById('display-loan-amount').textContent = loanAmount;
+    document.getElementById('display-loan-purpose').textContent = purpose;
+
+    let storedScore = '720';
+    try {
+      const storedData = JSON.parse(localStorage.getItem('prequalFormData'));
+      if (storedData && storedData['00NHs00000m08cg']) {
+        storedScore = storedData['00NHs00000m08cg'];
+        document.getElementById('00NHs00000m08cg').value = storedScore;
+      }
+    } catch (e) {}
+
+    updatePaymentCalculator();
+
     setTimeout(() => {
       localStorage.removeItem('formSubmitted');
       localStorage.removeItem('prequalFormData');
