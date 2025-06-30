@@ -380,48 +380,48 @@
         <script src="/js/pre-qual.js" defer></script>
       </div>
     </div>
-    <div id='completion-screen' class='section hidden'>
-      <div class="prequal-flow">
-        <div class="container">
-          <div id="loading-element" class="loading">
-            <p>Processing your application...</p>
-            <div class="spinner"></div>
-          </div>
-          <div id="results-container">
-            <div class="offer-card">
-              <h3>Your Estimated Offer</h3>
-              <p>
-                <strong>Requested Loan Amount:</strong>
-                <span id="display-loan-amount">$0</span>
-              </p>
-              <p>
-                <strong>Loan Purpose:</strong>
-                <span id="display-loan-purpose">Not specified</span>
-              </p>
-              <div class="payment-display">
-                <label>Estimated Monthly Payment:</label>
-                <div id="monthly-payment" class="amount">$0.00</div>
-              </div>
-              <div class="term-slider-container">
-                <label for="term-slider">Adjust Loan Term</label>
-                <input type="range" id="term-slider" class="term-slider" min="6" max="144" step="6" value="60">
-                <div class="term-labels">
-                  <span>6 months</span>
-                  <span id="current-term">60 months</span>
-                  <span>144 months</span>
-                </div>
-              </div>
-              <p class="disclaimer"> Please note that the rates and payments above are estimated based on the information you provided and are subject to change. </p>
+      <div id='completion-screen' class='section hidden'>
+        <div class="prequal-flow">
+          <div class="container">
+            <div id="loading-element" class="loading">
+              <p>Processing your application...</p>
+              <div class="spinner"></div>
             </div>
-            <div class="next-steps-card">
-              <h3>Next Steps</h3>
-              <p>Thank you for submitting your prequalification request. If prequalified, you will receive an email with a link to complete the full application process with login credentials. This review typically takes 1-2 business days.</p>
-              <p>If you have any immediate questions, please contact us at info@4fimd.com or call us at (866) 544-3463.</p>
-              <a href="https://4fimd.com" class="btn">Return to Home</a>
+            <div id="results-container">
+              <div class="offer-card">
+                <h3>Your Estimated Offer</h3>
+                <p>
+                  <strong>Requested Loan Amount:</strong>
+                  <span id="display-loan-amount">$0</span>
+                </p>
+                <p>
+                  <strong>Loan Purpose:</strong>
+                  <span id="display-loan-purpose">Not specified</span>
+                </p>
+                <div class="payment-display">
+                  <label>Estimated Monthly Payment:</label>
+                  <div id="monthly-payment-completion" class="amount">$0.00</div>
+                </div>
+                <div class="term-slider-container">
+                  <label for="term-slider-completion">Adjust Loan Term</label>
+                  <input type="range" id="term-slider" class="term-slider" min="6" max="144" step="6" value="60">
+                  <div class="term-labels">
+                    <span>6 months</span>
+                    <span id="current-term-completion">60 months</span>
+                    <span>144 months</span>
+                  </div>
+                </div>
+                <p class="disclaimer"> Please note that the rates and payments above are estimated based on the information you provided and are subject to change. </p>
+              </div>
+              <div class="next-steps-card">
+                <h3>Next Steps</h3>
+                <p>Thank you for submitting your prequalification request. If prequalified, you will receive an email with a link to complete the full application process with login credentials. This review typically takes 1-2 business days.</p>
+                <p>If you have any immediate questions, please contact us at info@4fimd.com or call us at (866) 544-3463.</p>
+                <a href="https://4fimd.com" class="btn">Return to Home</a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       <script>
         document.addEventListener('DOMContentLoaded', function() {
           // Hide loading
