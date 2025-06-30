@@ -711,6 +711,59 @@
           labels[1].textContent = `${current} months`;
         }
       }
+
+      function initializeCompletionScreen() {
+  const loadingElement = document.getElementById('loading-element');
+  if (loadingElement) loadingElement.style.display = 'none';
+
+  const loanAmount = urlParams.get('amount') || localStorage.getItem('loan_amount') || '$0';
+  const purpose = urlParams.get('purpose') || localStorage.getItem('loan_purpose') || 'Not specified';
+
+  document.getElementById('display-loan-amount').textContent = loanAmount;
+  document.getElementById('display-loan-purpose').textContent = purpose;
+
+  let creditScore = 720;
+  try {
+    const storedData = JSON.parse(localStorage.getItem('prequalFormData'));
+    if (storedData && storedData['00NHs00000m08cg']) {
+      creditScore = storedData['00NHs00000m08cg'];
+    }
+  } catch (e) {}
+
+  const amountValue = parseInt(loanAmount.replace(/[^0-9]/g, '')) || 0;
+  const estimatedRate = calculateInterestRate(creditScore, amountValue);
+
+  const termSlider = document.getElementById('completion-term-slider');
+  const currentTerm = document.getElementById('completion-current-term');
+  const monthlyPaymentDisplay = document.getElementById('completion-monthly-payment');
+
+  const { minTerm, maxTerm } = calculateTermRange(amountValue);
+  termSlider.min = minTerm;
+  termSlider.max = maxTerm;
+  if (+termSlider.value < minTerm || +termSlider.value > maxTerm) {
+    termSlider.value = minTerm;
+  }
+
+  updateTermLabels(minTerm, maxTerm, termSlider.value);
+  monthlyPaymentDisplay.textContent = formatCurrency(
+    calculateMonthlyPayment(amountValue, estimatedRate, +termSlider.value)
+  );
+
+  termSlider.addEventListener('input', () => {
+    const term = +termSlider.value;
+    currentTerm.textContent = `${term} months`;
+    monthlyPaymentDisplay.textContent = formatCurrency(
+      calculateMonthlyPayment(amountValue, estimatedRate, term)
+    );
+  });
+
+  setTimeout(() => {
+    localStorage.removeItem('formSubmitted');
+    localStorage.removeItem('prequalFormData');
+    localStorage.removeItem('loan_amount');
+    localStorage.removeItem('loan_purpose');
+  }, 2000);
+}
     });
   </script>
 
