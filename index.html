@@ -420,7 +420,7 @@
           }
           const amountValue = parseInt(loanAmount.replace(/[^0-9]/g, '')) || 0;
           const estimatedRate = calculateInterestRate(creditScore, amountValue);
-          const termSlider = document.getElementById('term-slider-completion-completion');
+          const termSlider = document.getElementById('term-slider-completion');
           const currentTerm = document.getElementById('current-term-completion');
           const monthlyPaymentDisplay = document.getElementById('monthly-payment-completion');
           const {
