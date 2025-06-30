@@ -57,7 +57,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if (progressText) progressText.textContent = `Step ${index + 1} of ${total}`;
   }
 
+  if (!isSubmitted) {
   showSection(0);
+}
+
 
   // === INPUT FORMATTING ===
   document.querySelectorAll('.currency:not([readonly])').forEach(input => {
