@@ -114,34 +114,86 @@ if (businessEstablished) {
     });
   });
 
-  // === FORM SUBMIT ===
-  if (form) {
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      if (!validateSection(formSections[currentSectionIndex])) return;
+ // Form submission 
+ if (form) {
+  console.log("Form found, setting up submission handler", form);
 
-      if (loadingScreen) loadingScreen.classList.remove('hidden');
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    console.log("Form submission started");
 
-      const amtField = document.getElementById('00NHs00000lzslH');
-      const purposeField = document.getElementById('00NHs00000scaqg');
-      const amount = amtField ? amtField.value.replace(/[^0-9]/g, '') : '';
-      const purpose = purposeField ? purposeField.value : '';
+    const currentSection = formSections[currentSectionIndex];
+    if (!validateSection(currentSection)) {
+      console.error("Validation failed, stopping submission");
+      return;
+    }
 
-      localStorage.setItem('loan_amount', `$${parseInt(amount).toLocaleString()}`);
-      localStorage.setItem('loan_purpose', purpose);
+    if (loadingScreen) {
+      loadingScreen.classList.remove('hidden');
+      console.log("Loading screen displayed");
+    }
 
-      const retInput = document.querySelector('input[name="retURL"]');
-      retInput.value = `https://prequal.4fimd.com/?submitted=true&amount=${amount}&purpose=${encodeURIComponent(purpose)}`;
+    const formData = new FormData(form);
+    const formDataObj = {};
 
-      const formData = new FormData(form);
-      const obj = {};
-      for (let [k, v] of formData.entries()) obj[k] = v;
-      localStorage.setItem('prequalFormData', JSON.stringify(obj));
-      localStorage.setItem('formSubmitted', 'true');
+    const loanAmountElement = document.getElementById('00NHs00000lzslH');
+    const loanPurposeElement = document.getElementById('00NHs00000scaqg');
+    let loanAmount = '';
+    const loanPurpose = loanPurposeElement ? loanPurposeElement.value : '';
 
-      form.submit();
-    });
-  }
+    if (loanAmountElement && loanAmountElement.value) {
+      const numericAmount = parseInt(loanAmountElement.value.replace(/[^0-9]/g, ''));
+      if (!isNaN(numericAmount)) {
+        loanAmount = '$' + numericAmount.toLocaleString('en-US');
+      } else {
+        loanAmount = loanAmountElement.value;
+      }
+    } else {
+      loanAmount = '';
+    }
+
+    // Set localStorage for use on the results screen
+    localStorage.setItem('loan_amount', loanAmount);
+    localStorage.setItem('loan_purpose', loanPurpose);
+
+    for (let [key, value] of formData.entries()) {
+      formDataObj[key] = value;
+    }
+
+    // Also populate hidden fields in the form
+    const loanAmountParamField = document.getElementById('loan_amount_param');
+    const loanPurposeParamField = document.getElementById('loan_purpose_param');
+
+    if (loanAmountParamField && loanAmount) {
+      loanAmountParamField.value = loanAmount;
+    }
+
+    if (loanPurposeParamField && loanPurpose) {
+      loanPurposeParamField.value = loanPurpose;
+    }
+
+    try {
+      localStorage.setItem('prequalFormData', JSON.stringify(formDataObj));
+      console.log("Form data saved to localStorage");
+    } catch (e) {
+      console.error("Failed to save form data to localStorage:", e);
+    }
+
+    if (!form.action || form.action.trim() === '') {
+      alert('Form is missing action URL');
+      if (loadingScreen) loadingScreen.classList.add('hidden');
+      return;
+    }
+
+    localStorage.setItem('formSubmitted', 'true');
+
+    // Submit the form
+    form.submit();
+  });
+} else {
+  console.error("Form element not found - form submission handler not initialized");
+}
+
 
   // === PAYMENT DISPLAY ON REDIRECT ===
   if (isSubmitted) {
