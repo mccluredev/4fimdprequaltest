@@ -133,47 +133,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Form Flow
 function showSection(index) {
-  if (!formSections || formSections.length === 0) {
-    console.warn("formSections not initialized");
-    return;
-  }
+  if (!formSections || formSections.length === 0) return;
+  if (index < 0 || index >= formSections.length) return;
 
-  console.log("showSection called with index:", index);
-  if (index < 0 || index >= formSections.length || isAnimating) return;
-  if (index === currentSectionIndex) {
-    // First load: just show without animation
-    formSections[index].classList.remove('hidden');
-    updateProgressBar(index);
-    return;
-  }
+  // Hide all sections
+  formSections.forEach((section, i) => {
+    section.classList.add('hidden');
+  });
 
-  isAnimating = true;
-  const currentSection = formSections[currentSectionIndex];
-  const nextSection = formSections[index];
+  // Show the selected section
+  formSections[index].classList.remove('hidden');
+  currentSectionIndex = index;
 
-  nextSection.classList.remove('hidden');
-  nextSection.classList.add('slide-enter');
-
-  void nextSection.offsetWidth;
-
-  currentSection.classList.add('slide-exit-active');
-  nextSection.classList.add('slide-enter-active');
-
-  setTimeout(() => {
-    currentSection.classList.add('hidden');
-    currentSection.classList.remove('slide-exit-active');
-    nextSection.classList.remove('slide-enter', 'slide-enter-active');
-
-    formSections.forEach((section, i) => {
-      if (i !== index) section.classList.add('hidden');
-    });
-
-    currentSectionIndex = index;
-    updateProgressBar(index);
-    isAnimating = false;
-  }, 500);
+  updateProgressBar(index);
 }
-
 
 function updateProgressBar(index) {
   const progressBar = document.querySelector('.progress-bar-fill');
