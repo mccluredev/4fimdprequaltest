@@ -265,3 +265,16 @@ body.submitted #completion-screen {
     padding: 10px;
   }
 }
+
+.term-slider {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.term-slider:focus,
+.term-slider:active,
+.term-slider:hover {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
