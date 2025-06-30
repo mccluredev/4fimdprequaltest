@@ -188,6 +188,39 @@
       .btn:hover {
         background-color: #1a365d;
       }
+
+      .section {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        transition: transform 0.5s ease, opacity 0.5s ease;
+        opacity: 0;
+        transform: translateX(100%);
+        z-index: 1;
+      }
+      
+      .section:not(.hidden) {
+        opacity: 1;
+        transform: translateX(0);
+        z-index: 2;
+      }
+      
+      .slide-enter {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      
+      .slide-enter-active {
+        transform: translateX(0%);
+        opacity: 1;
+      }
+      
+      .slide-exit-active {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+
     </style>
   </head>
   <body>
