@@ -82,11 +82,6 @@ function updateProgressBar(index) {
   if (progressText) progressText.textContent = `Step ${index + 1} of ${total}`;
 }
 
-// Only start form if not in submitted=true mode
-if (!isSubmitted) {
-  showSection(0);
-}
-
   // === INPUT FORMATTING ===
   document.querySelectorAll('.currency:not([readonly])').forEach(input => {
     input.addEventListener('blur', e => {
