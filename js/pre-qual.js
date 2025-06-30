@@ -13,44 +13,44 @@ document.addEventListener('DOMContentLoaded', function () {
   const urlParams = new URLSearchParams(window.location.search);
   isSubmitted = urlParams.get('submitted') === 'true';
 
-  // === CONDITIONAL FIELD LOGIC ===
+// === CONDITIONAL FIELD LOGIC (clean version) ===
 
-// 1. Show "Please specify" when Loan Purpose is "Other"
-const loanPurposeSelect = document.getElementById('00NHs00000scaqg');
-const otherPurposeField = document.getElementById('other-purpose');
+// Loan Purpose → show/hide "Other"
+const loanPurpose = document.getElementById('00NHs00000scaqg');
+const otherPurpose = document.getElementById('other-purpose');
+const otherPurposeText = document.getElementById('00NQP000003JB1F');
 
-if (loanPurposeSelect && otherPurposeField) {
-  loanPurposeSelect.addEventListener('change', () => {
-    if (loanPurposeSelect.value === 'Other') {
-      otherPurposeField.classList.remove('hidden');
-      otherPurposeField.querySelector('textarea').setAttribute('required', 'required');
-    } else {
-      otherPurposeField.classList.add('hidden');
-      otherPurposeField.querySelector('textarea').removeAttribute('required');
+if (loanPurpose) {
+  loanPurpose.addEventListener('change', function () {
+    const isOther = this.value === 'Other';
+    otherPurpose.classList.toggle('hidden', !isOther);
+    otherPurposeText.required = isOther;
+    if (!isOther) {
+      otherPurposeText.value = '';
     }
   });
 
-  // Trigger logic on page load
-  loanPurposeSelect.dispatchEvent(new Event('change'));
+  // Run it once on load to apply current value
+  loanPurpose.dispatchEvent(new Event('change'));
 }
 
-// 2. Show "Years in Business" when Business Established is "Yes"
-const businessEstablishedSelect = document.getElementById('00NHs00000lzslM');
+// Business Established → show/hide "Years in Business"
+const businessEstablished = document.getElementById('00NHs00000lzslM');
 const yearsContainer = document.getElementById('years-container');
+const yearsInput = document.getElementById('00NHs00000m08cv');
 
-if (businessEstablishedSelect && yearsContainer) {
-  businessEstablishedSelect.addEventListener('change', () => {
-    if (businessEstablishedSelect.value === 'Yes') {
-      yearsContainer.classList.remove('hidden');
-      yearsContainer.querySelector('input').setAttribute('required', 'required');
-    } else {
-      yearsContainer.classList.add('hidden');
-      yearsContainer.querySelector('input').removeAttribute('required');
+if (businessEstablished) {
+  businessEstablished.addEventListener('change', function () {
+    const isEstablished = this.value === 'Yes';
+    yearsContainer.classList.toggle('hidden', !isEstablished);
+    yearsInput.required = isEstablished;
+    if (!isEstablished) {
+      yearsInput.value = '';
     }
   });
 
-  // Trigger logic on page load
-  businessEstablishedSelect.dispatchEvent(new Event('change'));
+  // Run it once on load to apply current value
+  businessEstablished.dispatchEvent(new Event('change'));
 }
 
   formSections = Array.from(document.querySelectorAll('.section')).filter(s =>
