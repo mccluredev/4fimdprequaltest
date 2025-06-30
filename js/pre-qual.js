@@ -1,19 +1,13 @@
-// Unified prequal + calculator script with slide animations
-
 document.addEventListener('DOMContentLoaded', function () {
   const urlParams = new URLSearchParams(window.location.search);
   const isSubmitted = urlParams.get('submitted') === 'true';
-  const form = document.getElementById("prequalForm");
 
-  const formSections = document.querySelectorAll('.section:not(#completion-screen):not(#payment-calculator)');
+  const formSections = Array.from(document.querySelectorAll('.section')).filter(s =>
+    !['completion-screen', 'payment-calculator'].includes(s.id)
+  );
   const calculator = document.getElementById('payment-calculator');
   const completion = document.getElementById('completion-screen');
-  const loadingScreen = document.getElementById('loading-screen');
 
-  let currentSectionIndex = 0;
-  let isAnimating = false;
-
-  // === STATE INIT ===
   if (isSubmitted) {
     formSections.forEach(section => section.classList.add('hidden'));
     if (calculator) calculator.classList.remove('hidden');
@@ -21,7 +15,11 @@ document.addEventListener('DOMContentLoaded', function () {
   } else {
     if (calculator) calculator.classList.add('hidden');
     if (completion) completion.classList.add('hidden');
+    // Show first section explicitly
+    formSections[0].classList.remove('hidden');
   }
+});
+
 
 // === FORM FLOW ===
 function showSection(index) {
