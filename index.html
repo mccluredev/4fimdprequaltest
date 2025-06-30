@@ -1,213 +1,272 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Loan Pre-qualification</title>
-  <link rel="stylesheet" href="/css/main.css" />
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYoh0dFh9SX2eIOe7lXesPbUb6lnPhqgU&libraries=places" async defer></script>
-
-
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Application Complete</title>
-  <link rel="stylesheet" href="css/main.css" />
   <style>
-     /* Specific styles for completion page */
-     .completion-page .container {
-            max-width: 800px;
-            padding: 20px;
-            margin: 20px auto;
-        }
+    /* Base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .completion-page h1 {
-            margin-bottom: 10px;
-            color: #2c5282;
-        }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f7fafc;
+      color: #2d3748;
+      line-height: 1.6;
+    }
 
-        .completion-page h2 {
-            font-size: 22px;
-            margin-bottom: 10px;
-            color: #2d3748;
-        }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
 
-        .completion-page h3 {
-            font-size: 18px;
-            margin-top: 0;
-            margin-bottom: 10px;
-            color: #2c5282;
-        }
+    /* Progress bar */
+    .progress-container {
+      margin-bottom: 30px;
+    }
 
-        .completion-page p {
-            margin: 8px 0;
-            line-height: 1.4;
-        }
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background-color: #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
 
-        .offer-card, .next-steps-card {
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
-        }
+    .progress-bar-fill {
+      height: 100%;
+      background-color: #48bb78;
+      transition: width 0.3s ease;
+      width: 25%;
+    }
 
-        .payment-display {
-            margin: 20px 0;
-            text-align: center;
-        }
+    .progress-text {
+      text-align: right;
+      margin-top: 8px;
+      font-size: 14px;
+      color: #718096;
+    }
 
-        .payment-display label {
-            font-size: 16px;
-            color: #666;
-            font-weight: 500;
-        }
+    /* Form sections */
+    .section {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
 
-        .payment-display .amount {
-            font-size: 46px;
-            font-weight: bold;
-            color: #2c5282;
-            margin: 10px 0;
-        }
+    .section.hidden {
+      display: none;
+    }
 
-        .disclaimer {
-            font-size: 12px;
-            color: #666;
-            margin-top: 10px;
-            text-align: center;
-            font-style: italic;
-        }
+    .section h2 {
+      margin-bottom: 25px;
+      color: #2c5282;
+      font-size: 24px;
+      font-weight: 600;
+    }
 
-        .term-slider-container {
-            margin: 20px 0;
-        }
+    /* Form elements */
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #4a5568;
+    }
 
-        .term-slider {
-            width: 100%;
-            height: 8px;
-            border-radius: 4px;
-            background: #e0e0e0;
-            outline: none;
-            -webkit-appearance: none;
-            margin: 15px 0;
-        }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      transition: border-color 0.2s ease;
+    }
 
-        .term-slider:focus,
-        .term-slider:active,
-        .term-slider:hover {
-            outline: none !important;
-            box-shadow: none !important;
-            border: none !important;
-        }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #4299e1;
+      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+    }
 
-        .term-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: #2c5282;
-            cursor: pointer;
-            border: none !important;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
-        }
+    input.error-input, select.error-input {
+      border-color: #e53e3e;
+    }
 
-        .term-slider::-webkit-slider-thumb:focus,
-        .term-slider::-webkit-slider-thumb:active,
-        .term-slider::-webkit-slider-thumb:hover {
-            outline: none !important;
-            border: none !important;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
-        }
+    /* Buttons */
+    .button-container {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+    }
 
-        .term-slider::-moz-range-thumb {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: #2c5282;
-            cursor: pointer;
-            border: none !important;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
-        }
+    .next-button, .back-button, .submit-button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
 
-        .term-slider::-moz-range-thumb:focus,
-        .term-slider::-moz-range-thumb:active,
-        .term-slider::-moz-range-thumb:hover {
-            outline: none !important;
-            border: none !important;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
-        }
+    .next-button, .submit-button {
+      background-color: #2c5282;
+      color: white;
+      flex: 1;
+    }
 
-        .term-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
-        }
+    .next-button:hover, .submit-button:hover {
+      background-color: #1a365d;
+    }
 
-        #current-term {
-            font-weight: bold;
-        }
+    .back-button {
+      background-color: #e2e8f0;
+      color: #4a5568;
+    }
 
-        .loading {
-            text-align: center;
-            padding: 30px;
-        }
+    .back-button:hover {
+      background-color: #cbd5e0;
+    }
 
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border-left-color: #2c5282;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
+    /* Animations */
+    .slide-enter {
+      opacity: 0;
+      transform: translateX(100%);
+    }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+    .slide-enter-active {
+      opacity: 1;
+      transform: translateX(0);
+      transition: all 0.5s ease;
+    }
 
-        .btn {
-            display: inline-block;
-            background-color: #2c5282;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 4px;
-            text-decoration: none;
-            margin-top: 15px;
-            font-size: 14px;
-        }
+    .slide-exit-active {
+      opacity: 0;
+      transform: translateX(-100%);
+      transition: all 0.5s ease;
+    }
 
-        .btn:hover {
-            background-color: #1a365d;
-        }
-    
-        /* Fix slide-in effect */
-.slide-enter {
-  opacity: 0;
-  transform: translateX(100%);
-}
+    /* Payment calculator styles */
+    .payment-display {
+      margin: 20px 0;
+      text-align: center;
+    }
 
-.slide-enter-active {
-  opacity: 1;
-  transform: translateX(0);
-  transition: all 0.5s ease;
-}
+    .payment-display label {
+      font-size: 16px;
+      color: #666;
+      font-weight: 500;
+    }
 
-.slide-exit-active {
-  opacity: 0;
-  transform: translateX(-100%);
-  transition: all 0.5s ease;
-}
+    .payment-display .amount {
+      font-size: 46px;
+      font-weight: bold;
+      color: #2c5282;
+      margin: 10px 0;
+    }
 
+    .term-slider-container {
+      margin: 20px 0;
+    }
 
-    </style>
+    .term-slider {
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: #e0e0e0;
+      outline: none;
+      -webkit-appearance: none;
+      margin: 15px 0;
+    }
+
+    .term-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #2c5282;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .term-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    /* Loading and completion styles */
+    .loading {
+      text-align: center;
+      padding: 30px;
+    }
+
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border-left-color: #2c5282;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .offer-card, .next-steps-card {
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #2c5282;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-top: 15px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .btn:hover {
+      background-color: #1a365d;
+    }
+
+    .disclaimer {
+      font-size: 12px;
+      color: #666;
+      margin-top: 10px;
+      text-align: center;
+      font-style: italic;
+    }
+  </style>
 </head>
 <body>
-
   <div class="prequal-flow">
     <div class="container">
       <div class="progress-container">
@@ -226,7 +285,7 @@
         <div class="section" id="section-1">
           <h2>Loan Information</h2>
           <div class="loan-summary">
-            <label>Requested Loan Amount:</label>
+            <label for="00NHs00000lzslH">Requested Loan Amount *</label>
             <input type="text" id="00NHs00000lzslH" name="00NHs00000lzslH" class="currency" required>
           </div>
 
@@ -328,7 +387,7 @@
             <option value="Surgical Technologist (CST, CRCST)">Surgical Technologist (CST, CRCST)</option>
             <option value="Veterinarian (DVM)">Veterinarian (DVM)</option>
             <option value="Veterinary Technician (RVT, LVT, CVT)">Veterinary Technician (RVT, LVT, CVT)</option>
-        </select>
+          </select>
 
           <div class="button-container">
             <button type="button" class="back-button">Back</button>
@@ -352,7 +411,7 @@
           <input type="tel" id="mobile" name="mobile" required placeholder="(XXX) XXX-XXXX">
 
           <label for="autocomplete">Address *</label>
-          <input type="text" id="autocomplete" placeholder="Start typing your address">
+          <input type="text" id="autocomplete" placeholder="Start typing your address" required>
           <input type="hidden" id="street" name="street">
           <input type="hidden" id="city" name="city">
           <input type="hidden" id="state" name="state">
@@ -378,7 +437,7 @@
           </div>
           <div class="payment-display">
             <label>Estimated Monthly Payment:</label>
-            <div id="monthly-payment" class="amount"></div>
+            <div id="monthly-payment" class="amount">$0.00</div>
           </div>
           <div class="term-slider-container">
             <label for="term-slider">Adjust Loan Term</label>
@@ -389,144 +448,241 @@
               <span>144 months</span>
             </div>
           </div>
-          <a href="https://4fimd.com" class="return-home">Return to Home</a>
+          <a href="https://4fimd.com" class="btn">Return to Home</a>
         </div>
       </div>
 
       <!-- Loading Screen -->
       <div id="loading-screen" class="hidden">
-        <h2>Calculating your estimate...</h2>
-        <div class="spinner"></div>
+        <div class="loading">
+          <h2>Calculating your estimate...</h2>
+          <div class="spinner"></div>
+        </div>
       </div>
 
-      <script>
-        document.addEventListener('DOMContentLoaded', function () {
-          const urlParams = new URLSearchParams(window.location.search);
-          const amount = urlParams.get('amount');
-
-          if (amount) {
-            const displayInput = document.getElementById('00NHs00000lzslH');
-            if (displayInput) {
-              const formatted = parseInt(amount).toLocaleString();
-              displayInput.value = `$${formatted}`;
-            }
-
-            const hiddenLoanField = document.getElementById('loan_amount_param');
-            if (hiddenLoanField) {
-              hiddenLoanField.value = amount;
-            }
-          }
-        });
-      </script>
-      <script src="/js/pre-qual.js" defer></script>
-    </div>
-  </div>
-
-<div id='completion-screen' class='section hidden'>
-
-  <div class="prequal-flow">
-    <div class="container">
-      <div id="loading-element" class="loading">
-        <p>Processing your application...</p>
-        <div class="spinner"></div>
-      </div>
-
-      <div id="results-container">
-        <div class="offer-card">
-          <h3>Your Estimated Offer</h3>
-          <p><strong>Requested Loan Amount:</strong> <span id="display-loan-amount">$0</span></p>
-          <p><strong>Loan Purpose:</strong> <span id="display-loan-purpose">Not specified</span></p>
-          <div class="payment-display">
-            <label>Estimated Monthly Payment:</label>
-            <div id="monthly-payment" class="amount">$0.00</div>
-          </div>
-
-          <div class="term-slider-container">
-            <label for="term-slider">Adjust Loan Term</label>
-            <input type="range" id="term-slider" class="term-slider" min="6" max="144" step="6" value="60">
-            <div class="term-labels">
-              <span>6 months</span>
-              <span id="current-term">60 months</span>
-              <span>144 months</span>
-            </div>
-          </div>
-
-          <p class="disclaimer">
-            Please note that the rates and payments above are estimated based on the information you provided and are subject to change.
-          </p>
+      <!-- Completion Screen -->
+      <div id="completion-screen" class="section hidden">
+        <div id="loading-element" class="loading">
+          <p>Processing your application...</p>
+          <div class="spinner"></div>
         </div>
 
-        <div class="next-steps-card">
-          <h3>Next Steps</h3>
-          <p>Thank you for submitting your prequalification request. If prequalified, you will receive an email with a link to complete the full application process with login credentials. This review typically takes 1-2 business days.</p>
-          <p>If you have any immediate questions, please contact us at info@4fimd.com or call us at (866) 544-3463.</p>
-          <a href="https://4fimd.com" class="btn">Return to Home</a>
+        <div id="results-container">
+          <div class="offer-card">
+            <h3>Your Estimated Offer</h3>
+            <p><strong>Requested Loan Amount:</strong> <span id="display-loan-amount">$0</span></p>
+            <p><strong>Loan Purpose:</strong> <span id="display-loan-purpose">Not specified</span></p>
+            <div class="payment-display">
+              <label>Estimated Monthly Payment:</label>
+              <div id="completion-monthly-payment" class="amount">$0.00</div>
+            </div>
+
+            <div class="term-slider-container">
+              <label for="completion-term-slider">Adjust Loan Term</label>
+              <input type="range" id="completion-term-slider" class="term-slider" min="6" max="144" step="6" value="60">
+              <div class="term-labels">
+                <span>6 months</span>
+                <span id="completion-current-term">60 months</span>
+                <span>144 months</span>
+              </div>
+            </div>
+
+            <p class="disclaimer">
+              Please note that the rates and payments above are estimated based on the information you provided and are subject to change.
+            </p>
+          </div>
+
+          <div class="next-steps-card">
+            <h3>Next Steps</h3>
+            <p>Thank you for submitting your prequalification request. If prequalified, you will receive an email with a link to complete the full application process with login credentials. This review typically takes 1-2 business days.</p>
+            <p>If you have any immediate questions, please contact us at info@4fimd.com or call us at (866) 544-3463.</p>
+            <a href="https://4fimd.com" class="btn">Return to Home</a>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Hide loading
-      const loadingElement = document.getElementById('loading-element');
-      if (loadingElement) loadingElement.style.display = 'none';
-
+    document.addEventListener('DOMContentLoaded', function () {
       const urlParams = new URLSearchParams(window.location.search);
-      const loanAmount = urlParams.get('amount') || localStorage.getItem('loan_amount') || '$0';
-      const purpose = urlParams.get('purpose') || localStorage.getItem('loan_purpose') || 'Not specified';
+      const isSubmitted = urlParams.get('submitted') === 'true';
+      const form = document.getElementById("prequalForm");
 
-      document.getElementById('display-loan-amount').textContent = loanAmount;
-      document.getElementById('display-loan-purpose').textContent = purpose;
+      const formSections = document.querySelectorAll('.section:not(#completion-screen):not(#payment-calculator)');
+      const calculator = document.getElementById('payment-calculator');
+      const completion = document.getElementById('completion-screen');
+      const loadingScreen = document.getElementById('loading-screen');
 
-      let creditScore = 720;
-      try {
-        const storedData = JSON.parse(localStorage.getItem('prequalFormData'));
-        if (storedData && storedData['00NHs00000m08cg']) {
-          creditScore = storedData['00NHs00000m08cg'];
+      let currentSectionIndex = 0;
+      let isAnimating = false;
+
+      // Initialize loan amount from URL
+      const amount = urlParams.get('amount');
+      if (amount) {
+        const displayInput = document.getElementById('00NHs00000lzslH');
+        if (displayInput) {
+          const formatted = parseInt(amount).toLocaleString();
+          displayInput.value = `$${formatted}`;
         }
-      } catch (e) {
-        console.error('Form data error', e);
+
+        const hiddenLoanField = document.getElementById('loan_amount_param');
+        if (hiddenLoanField) {
+          hiddenLoanField.value = amount;
+        }
       }
 
-      const amountValue = parseInt(loanAmount.replace(/[^0-9]/g, '')) || 0;
-      const estimatedRate = calculateInterestRate(creditScore, amountValue);
-
-      const termSlider = document.getElementById('term-slider');
-      const currentTerm = document.getElementById('current-term');
-      const monthlyPaymentDisplay = document.getElementById('monthly-payment');
-
-      const { minTerm, maxTerm } = calculateTermRange(amountValue);
-      termSlider.min = minTerm;
-      termSlider.max = maxTerm;
-      if (+termSlider.value < minTerm || +termSlider.value > maxTerm) {
-        termSlider.value = minTerm;
+      // State initialization
+      if (isSubmitted) {
+        formSections.forEach(section => section.classList.add('hidden'));
+        if (calculator) calculator.classList.remove('hidden');
+        if (completion) completion.classList.remove('hidden');
+        initializeCompletionScreen();
+      } else {
+        if (calculator) calculator.classList.add('hidden');
+        if (completion) completion.classList.add('hidden');
+        showSection(0);
       }
 
-      updateTermLabels(minTerm, maxTerm, termSlider.value);
-      monthlyPaymentDisplay.textContent = formatCurrency(
-        calculateMonthlyPayment(amountValue, estimatedRate, +termSlider.value)
-      );
+      // Form flow functions
+      function showSection(index) {
+        if (index < 0 || index >= formSections.length || isAnimating) return;
+        isAnimating = true;
 
-      termSlider.addEventListener('input', () => {
-        const term = +termSlider.value;
-        currentTerm.textContent = `${term} months`;
-        monthlyPaymentDisplay.textContent = formatCurrency(
-          calculateMonthlyPayment(amountValue, estimatedRate, term)
-        );
+        const currentSection = formSections[currentSectionIndex];
+        const nextSection = formSections[index];
+
+        nextSection.classList.remove('hidden');
+        nextSection.classList.add('slide-enter');
+
+        // Force reflow
+        void nextSection.offsetWidth;
+
+        currentSection.classList.add('slide-exit-active');
+        nextSection.classList.add('slide-enter-active');
+
+        setTimeout(() => {
+          currentSection.classList.add('hidden');
+          currentSection.classList.remove('slide-exit-active');
+          nextSection.classList.remove('slide-enter', 'slide-enter-active');
+
+          formSections.forEach((section, i) => {
+            if (i !== index) section.classList.add('hidden');
+          });
+
+          currentSectionIndex = index;
+          updateProgressBar(index);
+          isAnimating = false;
+        }, 500);
+      }
+
+      function updateProgressBar(index) {
+        const progressBar = document.querySelector('.progress-bar-fill');
+        const progressText = document.querySelector('.progress-text');
+        const total = formSections.length;
+        const percent = ((index + 1) / total) * 100;
+        if (progressBar) progressBar.style.width = `${percent}%`;
+        if (progressText) progressText.textContent = `Step ${index + 1} of ${total}`;
+      }
+
+      function validateSection(section) {
+        const inputs = section.querySelectorAll('input[required], select[required], textarea[required]');
+        let valid = true;
+        
+        inputs.forEach(input => {
+          const val = input.value.trim();
+          let fieldValid = true;
+          
+          if (input.type === 'email') {
+            fieldValid = /^\S+@\S+\.\S+$/.test(val);
+          } else if (input.type === 'tel') {
+            fieldValid = /^\(\d{3}\) \d{3}-\d{4}$/.test(val);
+          } else {
+            fieldValid = val !== '';
+          }
+          
+          input.classList.toggle('error-input', !fieldValid);
+          if (!fieldValid) valid = false;
+        });
+        
+        return valid;
+      }
+
+      // Input formatting
+      document.querySelectorAll('.currency:not([readonly])').forEach(input => {
+        input.addEventListener('blur', e => {
+          let val = e.target.value.replace(/[^0-9]/g, '');
+          if (val) e.target.value = `$${parseInt(val, 10).toLocaleString()}`;
+        });
+        input.addEventListener('focus', e => {
+          e.target.value = e.target.value.replace(/[^0-9]/g, '');
+        });
       });
 
-      localStorage.removeItem('formSubmitted');
-      localStorage.removeItem('prequalFormData');
-      localStorage.removeItem('loan_amount');
-      localStorage.removeItem('loan_purpose');
-
-      function formatCurrency(v) {
-        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(v);
+      const phoneInput = document.getElementById('mobile');
+      if (phoneInput) {
+        phoneInput.addEventListener('input', e => {
+          let val = e.target.value.replace(/\D/g, '').substring(0, 10);
+          if (val.length <= 3) val = `(${val}`;
+          else if (val.length <= 6) val = `(${val.slice(0, 3)}) ${val.slice(3)}`;
+          else val = `(${val.slice(0, 3)}) ${val.slice(3, 6)}-${val.slice(6)}`;
+          e.target.value = val;
+        });
       }
 
+      // Form navigation
+      document.querySelectorAll('.next-button').forEach(button => {
+        button.addEventListener('click', e => {
+          e.preventDefault();
+          const current = formSections[currentSectionIndex];
+          if (validateSection(current)) {
+            if (currentSectionIndex === 3) updatePaymentCalculator();
+            showSection(currentSectionIndex + 1);
+          }
+        });
+      });
+
+      document.querySelectorAll('.back-button').forEach(button => {
+        button.addEventListener('click', e => {
+          e.preventDefault();
+          if (currentSectionIndex > 0) showSection(currentSectionIndex - 1);
+        });
+      });
+
+      // Business established logic
+      const businessSelect = document.getElementById('00NHs00000lzslM');
+      const yearsContainer = document.getElementById('years-container');
+      if (businessSelect && yearsContainer) {
+        businessSelect.addEventListener('change', function() {
+          if (this.value === 'Yes') {
+            yearsContainer.classList.remove('hidden');
+            document.getElementById('00NHs00000m08cv').required = true;
+          } else {
+            yearsContainer.classList.add('hidden');
+            document.getElementById('00NHs00000m08cv').required = false;
+          }
+        });
+      }
+
+      // Loan purpose logic
+      const purposeSelect = document.getElementById('00NHs00000scaqg');
+      const otherPurpose = document.getElementById('other-purpose');
+      if (purposeSelect && otherPurpose) {
+        purposeSelect.addEventListener('change', function() {
+          if (this.value === 'Other') {
+            otherPurpose.classList.remove('hidden');
+            document.getElementById('00NQP000003JB1F').required = true;
+          } else {
+            otherPurpose.classList.add('hidden');
+            document.getElementById('00NQP000003JB1F').required = false;
+          }
+        });
+      }
+
+      // Calculator functions
       function calculateInterestRate(score, amt) {
-        score = +score;
+        score = parseInt(score);
+        amt = parseInt(amt);
         if (score >= 760) return amt < 10000 ? 15.99 : amt <= 75000 ? 14.99 : amt <= 150000 ? 13.99 : 12.99;
         if (score >= 720) return amt < 10000 ? 16.99 : amt <= 75000 ? 15.99 : amt <= 150000 ? 14.99 : 13.99;
         if (score >= 680) return amt < 10000 ? 17.99 : amt <= 75000 ? 16.99 : amt <= 150000 ? 15.99 : 14.99;
