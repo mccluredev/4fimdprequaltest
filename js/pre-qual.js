@@ -131,11 +131,8 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
-// === FORM FLOW ===
-  function showSection(index) {
-  console.log("📍 showSection called with:", index);
-  console.log("📦 formSections:", formSections.map(s => s.id));
-
+// Form Flow
+function showSection(index) {
   if (!formSections || formSections.length === 0) {
     console.warn("formSections not initialized");
     return;
@@ -143,8 +140,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
   console.log("showSection called with index:", index);
   if (index < 0 || index >= formSections.length || isAnimating) return;
-  isAnimating = true;
+  if (index === currentSectionIndex) {
+    // First load: just show without animation
+    formSections[index].classList.remove('hidden');
+    updateProgressBar(index);
+    return;
+  }
 
+  isAnimating = true;
   const currentSection = formSections[currentSectionIndex];
   const nextSection = formSections[index];
 
@@ -170,6 +173,7 @@ document.addEventListener('DOMContentLoaded', function () {
     isAnimating = false;
   }, 500);
 }
+
 
 function updateProgressBar(index) {
   const progressBar = document.querySelector('.progress-bar-fill');
