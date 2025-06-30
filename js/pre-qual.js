@@ -23,41 +23,55 @@ document.addEventListener('DOMContentLoaded', function () {
     if (completion) completion.classList.add('hidden');
   }
 
-  // === FORM FLOW ===
-  function showSection(index) {
-    if (index < 0 || index >= formSections.length || isAnimating) return;
-    isAnimating = true;
+// === FORM FLOW ===
+function showSection(index) {
+  if (index < 0 || index >= formSections.length || isAnimating) return;
+  isAnimating = true;
 
-    const currentSection = formSections[currentSectionIndex];
-    const nextSection = formSections[index];
+  const currentSection = formSections[currentSectionIndex];
+  const nextSection = formSections[index];
 
-    nextSection.classList.remove('hidden');
-    nextSection.classList.add('slide-enter');
-    void nextSection.offsetWidth; // force reflow
+  console.log("➡️ Transitioning from section", currentSectionIndex, "to", index);
 
-    currentSection.classList.add('slide-exit-active');
-    nextSection.classList.add('slide-enter-active');
+  nextSection.classList.remove('hidden');
+  nextSection.classList.add('slide-enter');
 
-    setTimeout(() => {
-      currentSection.classList.add('hidden');
-      currentSection.classList.remove('slide-exit-active');
-      nextSection.classList.remove('slide-enter', 'slide-enter-active');
-      currentSectionIndex = index;
-      updateProgressBar(index);
-      isAnimating = false;
-    }, 500);
-  }
+  // Force reflow before activating animation
+  void nextSection.offsetWidth;
 
-  function updateProgressBar(index) {
-    const progressBar = document.querySelector('.progress-bar-fill');
-    const progressText = document.querySelector('.progress-text');
-    const total = formSections.length;
-    const percent = ((index + 1) / total) * 100;
-    if (progressBar) progressBar.style.width = `${percent}%`;
-    if (progressText) progressText.textContent = `Step ${index + 1} of ${total}`;
-  }
+  currentSection.classList.add('slide-exit-active');
+  nextSection.classList.add('slide-enter-active');
 
-  if (!isSubmitted) {
+  setTimeout(() => {
+    // Fully hide previous
+    currentSection.classList.add('hidden');
+    currentSection.classList.remove('slide-exit-active');
+
+    // Clean up new section's animation classes
+    nextSection.classList.remove('slide-enter', 'slide-enter-active');
+
+    // Re-hide all other sections just in case
+    formSections.forEach((section, i) => {
+      if (i !== index) section.classList.add('hidden');
+    });
+
+    currentSectionIndex = index;
+    updateProgressBar(index);
+    isAnimating = false;
+  }, 500);
+}
+
+function updateProgressBar(index) {
+  const progressBar = document.querySelector('.progress-bar-fill');
+  const progressText = document.querySelector('.progress-text');
+  const total = formSections.length;
+  const percent = ((index + 1) / total) * 100;
+  if (progressBar) progressBar.style.width = `${percent}%`;
+  if (progressText) progressText.textContent = `Step ${index + 1} of ${total}`;
+}
+
+// Only start form if not in submitted=true mode
+if (!isSubmitted) {
   showSection(0);
 }
 
