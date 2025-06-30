@@ -77,11 +77,11 @@
         font-style: italic;
       }
 
-      .term-slider-container {
+      .term-slider-completion-container {
         margin: 20px 0;
       }
 
-      .term-slider {
+      .term-slider-completion {
         width: 100%;
         height: 8px;
         border-radius: 4px;
@@ -91,15 +91,15 @@
         margin: 15px 0;
       }
 
-      .term-slider:focus,
-      .term-slider:active,
-      .term-slider:hover {
+      .term-slider-completion:focus,
+      .term-slider-completion:active,
+      .term-slider-completion:hover {
         outline: none !important;
         box-shadow: none !important;
         border: none !important;
       }
 
-      .term-slider::-webkit-slider-thumb {
+      .term-slider-completion::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;
         width: 24px;
@@ -111,15 +111,15 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
       }
 
-      .term-slider::-webkit-slider-thumb:focus,
-      .term-slider::-webkit-slider-thumb:active,
-      .term-slider::-webkit-slider-thumb:hover {
+      .term-slider-completion::-webkit-slider-thumb:focus,
+      .term-slider-completion::-webkit-slider-thumb:active,
+      .term-slider-completion::-webkit-slider-thumb:hover {
         outline: none !important;
         border: none !important;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
       }
 
-      .term-slider::-moz-range-thumb {
+      .term-slider-completion::-moz-range-thumb {
         width: 24px;
         height: 24px;
         border-radius: 50%;
@@ -129,9 +129,9 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
       }
 
-      .term-slider::-moz-range-thumb:focus,
-      .term-slider::-moz-range-thumb:active,
-      .term-slider::-moz-range-thumb:hover {
+      .term-slider-completion::-moz-range-thumb:focus,
+      .term-slider-completion::-moz-range-thumb:active,
+      .term-slider-completion::-moz-range-thumb:hover {
         outline: none !important;
         border: none !important;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
@@ -331,30 +331,7 @@
             </div>
           </div>
         </form>
-        <!-- Payment Calculator -->
-        <div class="section hidden" id="payment-calculator">
-          <h2>Your Estimated Payment</h2>
-          <div class="calculator-container">
-            <div class="rate-info">
-              <h3>Your Rate Information</h3>
-              <p id="rate-text"></p>
-            </div>
-            <div class="payment-display">
-              <label>Estimated Monthly Payment:</label>
-              <div id="monthly-payment-completion" class="amount"></div>
-            </div>
-            <div class="term-slider-container">
-              <label for="term-slider">Adjust Loan Term</label>
-              <input type="range" id="term-slider-completion" class="term-slider" min="6" max="144" step="6" value="60">
-              <div class="term-labels">
-                <span>6 months</span>
-                <span id="current-term-completion">60 months</span>
-                <span>144 months</span>
-              </div>
-            </div>
-            <a href="https://4fimd.com" class="return-home">Return to Home</a>
-          </div>
-        </div>
+       
         <!-- Loading Screen -->
         <div id="loading-screen" class="hidden">
           <h2>Calculating your estimate...</h2>
@@ -402,9 +379,9 @@
                   <label>Estimated Monthly Payment:</label>
                   <div id="monthly-payment-completion" class="amount">$0.00</div>
                 </div>
-                <div class="term-slider-container">
-                  <label for="term-slider-completion">Adjust Loan Term</label>
-                  <input type="range" id="term-slider" class="term-slider" min="6" max="144" step="6" value="60">
+                <div class="term-slider-completion-container">
+                  <label for="term-slider-completion-completion">Adjust Loan Term</label>
+                  <input type="range" id="term-slider-completion" class="term-slider-completion" min="6" max="144" step="6" value="60">
                   <div class="term-labels">
                     <span>6 months</span>
                     <span id="current-term-completion">60 months</span>
@@ -443,7 +420,7 @@
           }
           const amountValue = parseInt(loanAmount.replace(/[^0-9]/g, '')) || 0;
           const estimatedRate = calculateInterestRate(creditScore, amountValue);
-          const termSlider = document.getElementById('term-slider-completion');
+          const termSlider = document.getElementById('term-slider-completion-completion');
           const currentTerm = document.getElementById('current-term-completion');
           const monthlyPaymentDisplay = document.getElementById('monthly-payment-completion');
           const {
