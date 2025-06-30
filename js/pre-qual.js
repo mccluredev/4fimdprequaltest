@@ -21,48 +21,47 @@ document.addEventListener('DOMContentLoaded', function () {
   loadingScreen = document.getElementById("loading-screen");
 
   if (isSubmitted) {
+    console.log("💡 In 'submitted' mode");
     formSections.forEach(section => section.classList.add('hidden'));
     if (calculator) calculator.classList.remove('hidden');
     if (completion) completion.classList.remove('hidden');
   } else {
+    console.log("💡 In form mode");
     if (calculator) calculator.classList.add('hidden');
     if (completion) completion.classList.add('hidden');
-
-    // Properly initialize view
     showSection(0);
   }
 });
 
-
-
 // === FORM FLOW ===
 function showSection(index) {
+  if (!formSections || formSections.length === 0) {
+    console.warn("formSections not initialized");
+    return;
+  }
+
+  console.log("showSection called with index:", index);
+  console.log("formSections:", formSections.map(s => s.id));
+
   if (index < 0 || index >= formSections.length || isAnimating) return;
   isAnimating = true;
 
   const currentSection = formSections[currentSectionIndex];
   const nextSection = formSections[index];
 
-  console.log("➡️ Transitioning from section", currentSectionIndex, "to", index);
-
   nextSection.classList.remove('hidden');
   nextSection.classList.add('slide-enter');
 
-  // Force reflow before activating animation
   void nextSection.offsetWidth;
 
   currentSection.classList.add('slide-exit-active');
   nextSection.classList.add('slide-enter-active');
 
   setTimeout(() => {
-    // Fully hide previous
     currentSection.classList.add('hidden');
     currentSection.classList.remove('slide-exit-active');
-
-    // Clean up new section's animation classes
     nextSection.classList.remove('slide-enter', 'slide-enter-active');
 
-    // Re-hide all other sections just in case
     formSections.forEach((section, i) => {
       if (i !== index) section.classList.add('hidden');
     });
@@ -72,6 +71,7 @@ function showSection(index) {
     isAnimating = false;
   }, 500);
 }
+
 
 function updateProgressBar(index) {
   const progressBar = document.querySelector('.progress-bar-fill');
@@ -86,7 +86,6 @@ function updateProgressBar(index) {
 if (!isSubmitted) {
   showSection(0);
 }
-
 
   // === INPUT FORMATTING ===
   document.querySelectorAll('.currency:not([readonly])').forEach(input => {
