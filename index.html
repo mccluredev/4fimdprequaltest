@@ -490,7 +490,7 @@
 
       termSlider.addEventListener('input', () => {
         const term = +termSlider.value;
-        currentTerm.textContent = ${term} months;
+        currentTerm.textContent = '${term} months';
         monthlyPaymentDisplay.textContent = formatCurrency(
           calculateMonthlyPayment(amountValue, estimatedRate, term)
         );
@@ -530,9 +530,9 @@
       function updateTermLabels(min, max, current) {
         const labels = document.querySelectorAll('.term-labels span');
         if (labels.length === 3) {
-          labels[0].textContent = ${min} months;
-          labels[2].textContent = ${max} months;
-          labels[1].textContent = ${current} months;
+          labels[0].textContent = '${min} months';
+          labels[2].textContent = '${max} months';
+          labels[1].textContent = '${current} months';
         }
       }
     });
