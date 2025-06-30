@@ -9,6 +9,7 @@ let form = null;
 let loadingScreen = null;
 
 document.addEventListener('DOMContentLoaded', function () {
+  console.log("🧠 DOM ready. Is submitted:", isSubmitted);
   const urlParams = new URLSearchParams(window.location.search);
   isSubmitted = urlParams.get('submitted') === 'true';
 
@@ -131,7 +132,10 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // === FORM FLOW ===
-function showSection(index) {
+  function showSection(index) {
+  console.log("📍 showSection called with:", index);
+  console.log("📦 formSections:", formSections.map(s => s.id));
+
   if (!formSections || formSections.length === 0) {
     console.warn("formSections not initialized");
     return;
