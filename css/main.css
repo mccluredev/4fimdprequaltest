@@ -247,13 +247,13 @@ body.submitted #completion-screen {
 }
 
 .prequal-flow {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  display: block;
+  max-width: 800px;
+  margin: 0 auto;
   padding: 20px;
   box-sizing: border-box;
 }
+
 
 /* Responsive Adjustments from WP CSS */
 @media (max-width: 768px) {
