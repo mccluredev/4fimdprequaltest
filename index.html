@@ -341,14 +341,14 @@
             </div>
             <div class="payment-display">
               <label>Estimated Monthly Payment:</label>
-              <div id="monthly-payment" class="amount"></div>
+              <div id="monthly-payment-completion" class="amount"></div>
             </div>
             <div class="term-slider-container">
               <label for="term-slider">Adjust Loan Term</label>
-              <input type="range" id="term-slider" class="term-slider" min="6" max="144" step="6" value="60">
+              <input type="range" id="term-slider-completion" class="term-slider" min="6" max="144" step="6" value="60">
               <div class="term-labels">
                 <span>6 months</span>
-                <span id="current-term">60 months</span>
+                <span id="current-term-completion">60 months</span>
                 <span>144 months</span>
               </div>
             </div>
@@ -443,9 +443,9 @@
           }
           const amountValue = parseInt(loanAmount.replace(/[^0-9]/g, '')) || 0;
           const estimatedRate = calculateInterestRate(creditScore, amountValue);
-          const termSlider = document.getElementById('term-slider');
-          const currentTerm = document.getElementById('current-term');
-          const monthlyPaymentDisplay = document.getElementById('monthly-payment');
+          const termSlider = document.getElementById('term-slider-completion');
+          const currentTerm = document.getElementById('current-term-completion');
+          const monthlyPaymentDisplay = document.getElementById('monthly-payment-completion');
           const {
             minTerm,
             maxTerm
@@ -510,9 +510,9 @@
           function updateTermLabels(min, max, current) {
             const labels = document.querySelectorAll('.term-labels span');
             if (labels.length === 3) {
-              labels[0].textContent = '${min} months';
-              labels[2].textContent = '${max} months';
-              labels[1].textContent = '${current} months';
+              labels[0].textContent = `${min} months`;
+              labels[2].textContent = `${max} months`;
+              labels[1].textContent = `${current} months`;
             }
           }
         });
