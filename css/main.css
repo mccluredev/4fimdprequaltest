@@ -148,12 +148,11 @@ body.submitted #completion-screen {
 }
 
 .prequal-flow .container {
-  width: 60%;
+  width: 100%;
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   position: relative;
-  flex: 1;
-  min-width: 600px;
 }
 
 .prequal-flow button,
@@ -245,6 +244,15 @@ body.submitted #completion-screen {
 
 .prequal-flow input[type="email"] {
   font-family: var(--font-primary);
+}
+
+.prequal-flow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 /* Responsive Adjustments from WP CSS */
