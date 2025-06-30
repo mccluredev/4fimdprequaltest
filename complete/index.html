@@ -38,8 +38,21 @@
       margin: 0 auto;
       outline: none !important;
       box-shadow: none !important;
-      accent-color: var(--color-accent);
       background-color: white !important;
+    }
+
+    .term-slider::-webkit-slider-thumb {
+      accent-color: var(--color-accent);
+      background: var(--color-accent) !important;
+    }
+
+    .term-slider::-moz-range-thumb {
+      background: var(--color-accent) !important;
+    }
+
+    .term-slider::-webkit-slider-runnable-track,
+    .term-slider::-moz-range-track {
+      background: white !important;
     }
 
     .term-slider::-webkit-slider-thumb:focus,
@@ -73,7 +86,7 @@
     .btn {
       display: inline-block;
       background-color: var(--color-accent);
-      color: white;
+      color: white !important;
       padding: 12px 20px;
       border-radius: 9999px;
       text-decoration: none;
