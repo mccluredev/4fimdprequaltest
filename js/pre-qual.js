@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const isSubmitted = urlParams.get('submitted') === 'true';
   const form = document.getElementById("prequalForm");
 
-  const formSections = document.querySelectorAll('.section');
+  const formSections = document.querySelectorAll('.section:not(#completion-screen):not(#payment-calculator)');
   const calculator = document.getElementById('payment-calculator');
   const completion = document.getElementById('completion-screen');
   const loadingScreen = document.getElementById('loading-screen');
