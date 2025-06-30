@@ -285,25 +285,28 @@ function updatePaymentCalculator() {
   const currentTerm = document.getElementById('current-term-completion');
   const monthlyPaymentDisplay = document.getElementById('monthly-payment-completion');
 
+  if (!amtField || !scoreField || !termSlider || !rateLabel || !currentTerm || !monthlyPaymentDisplay) return;
 
-  const amt = parseInt(amtField.value.replace(/[^0-9]/g, ''));
+  const amt = parseInt(amtField.value.replace(/[^0-9]/g, '')) || 0;
   const score = scoreField.value;
-  const term = parseInt(slider.value);
+  const term = parseInt(termSlider.value);
   const rate = calculateInterestRate(score, amt);
 
   if (!rate) {
     rateLabel.textContent = 'Contact us for rate details.';
-    display.textContent = 'Contact us';
+    monthlyPaymentDisplay.textContent = 'Contact us';
     return;
   }
 
   const payment = calculateMonthlyPayment(amt, rate, term);
-  display.textContent = payment.toLocaleString('en-US', {
-    style: 'currency', currency: 'USD'
+
+  monthlyPaymentDisplay.textContent = payment.toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD'
   });
+
   rateLabel.textContent = `Your estimated interest rate is ${rate}% APR`;
   currentTerm.textContent = `${term} months`;
-
 }
 
 const slider = document.getElementById('term-slider');
