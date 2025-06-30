@@ -4,179 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Application Complete</title>
-  <link rel="stylesheet" href="main-scoped.css" />
-  <style>
-     /* Specific styles for completion page */
-     .completion-page .container {
-            max-width: 800px;
-            padding: 20px;
-            margin: 20px auto;
-        }
-
-        .completion-page h1 {
-            margin-bottom: 10px;
-            color: #2c5282;
-        }
-
-        .completion-page h2 {
-            font-size: 22px;
-            margin-bottom: 10px;
-            color: #2d3748;
-        }
-
-        .completion-page h3 {
-            font-size: 18px;
-            margin-top: 0;
-            margin-bottom: 10px;
-            color: #2c5282;
-        }
-
-        .completion-page p {
-            margin: 8px 0;
-            line-height: 1.4;
-        }
-
-        .offer-card, .next-steps-card {
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
-        }
-
-        .payment-display {
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .payment-display label {
-            font-size: 16px;
-            color: #666;
-            font-weight: 500;
-        }
-
-        .payment-display .amount {
-            font-size: 46px;
-            font-weight: bold;
-            color: #2c5282;
-            margin: 10px 0;
-        }
-
-        .disclaimer {
-            font-size: 12px;
-            color: #666;
-            margin-top: 10px;
-            text-align: center;
-            font-style: italic;
-        }
-
-        .term-slider-container {
-            margin: 20px 0;
-        }
-
-        .term-slider {
-            width: 100%;
-            height: 8px;
-            border-radius: 4px;
-            background: #e0e0e0;
-            outline: none;
-            -webkit-appearance: none;
-            margin: 15px 0;
-        }
-
-        .term-slider:focus,
-        .term-slider:active,
-        .term-slider:hover {
-            outline: none !important;
-            box-shadow: none !important;
-            border: none !important;
-        }
-
-        .term-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: #2c5282;
-            cursor: pointer;
-            border: none !important;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
-        }
-
-        .term-slider::-webkit-slider-thumb:focus,
-        .term-slider::-webkit-slider-thumb:active,
-        .term-slider::-webkit-slider-thumb:hover {
-            outline: none !important;
-            border: none !important;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
-        }
-
-        .term-slider::-moz-range-thumb {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: #2c5282;
-            cursor: pointer;
-            border: none !important;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
-        }
-
-        .term-slider::-moz-range-thumb:focus,
-        .term-slider::-moz-range-thumb:active,
-        .term-slider::-moz-range-thumb:hover {
-            outline: none !important;
-            border: none !important;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
-        }
-
-        .term-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        #current-term {
-            font-weight: bold;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 30px;
-        }
-
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border-left-color: #2c5282;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: #2c5282;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 4px;
-            text-decoration: none;
-            margin-top: 15px;
-            font-size: 14px;
-        }
-
-        .btn:hover {
-            background-color: #1a365d;
-        }
-    </style>
+  <link rel="stylesheet" href="../css/main.css" />
 </head>
 <body class="completion-page">
   <div class="prequal-flow">
@@ -186,43 +14,41 @@
         <div class="spinner"></div>
       </div>
 
-        <div class="offer-card">
-          <h3>Your Estimated Offer</h3>
-          <p><strong>Requested Loan Amount:</strong> <span id="display-loan-amount">$0</span></p>
-          <p><strong>Loan Purpose:</strong> <span id="display-loan-purpose">Not specified</span></p>
-          <div class="payment-display">
-            <label>Estimated Monthly Payment:</label>
-            <div id="monthly-payment" class="amount">$0.00</div>
-          </div>
-
-          <div class="term-slider-container">
-            <label for="term-slider">Adjust Loan Term</label>
-            <input type="range" id="term-slider" class="term-slider" min="6" max="144" step="6" value="60">
-            <div class="term-labels">
-              <span>6 months</span>
-              <span id="current-term">60 months</span>
-              <span>144 months</span>
-            </div>
-          </div>
-
-          <p class="disclaimer">
-            Please note that the rates and payments above are estimated based on the information you provided and are subject to change.
-          </p>
+      <div class="offer-card">
+        <h3>Your Estimated Offer</h3>
+        <p><strong>Requested Loan Amount:</strong> <span id="display-loan-amount">$0</span></p>
+        <p><strong>Loan Purpose:</strong> <span id="display-loan-purpose">Not specified</span></p>
+        <div class="payment-display">
+          <label>Estimated Monthly Payment:</label>
+          <div id="monthly-payment" class="amount">$0.00</div>
         </div>
 
-        <div class="next-steps-card">
-          <h3>Next Steps</h3>
-          <p>Thank you for submitting your prequalification request. If prequalified, you will receive an email with a link to the full application and login credentials. This review typically takes 1-2 business days.</p>
-          <p>If you have any immediate questions, please contact us at info@4fimd.com or call us at (866) 544-3463.</p>
-          <a href="https://4fimd.com" class="btn">Return to Home</a>
+        <div class="term-slider-container">
+          <label for="term-slider">Adjust Loan Term</label>
+          <input type="range" id="term-slider" class="term-slider" min="6" max="144" step="6" value="60">
+          <div class="term-labels">
+            <span>6 months</span>
+            <span id="current-term">60 months</span>
+            <span>144 months</span>
+          </div>
         </div>
+
+        <p class="disclaimer">
+          Please note that the rates and payments above are estimated based on the information you provided and are subject to change.
+        </p>
+      </div>
+
+      <div class="next-steps-card">
+        <h3>Next Steps</h3>
+        <p>Thank you for submitting your prequalification request. If prequalified, you will receive an email with a link to the full application and login credentials. This review typically takes 1-2 business days.</p>
+        <p>If you have any immediate questions, please contact us at info@4fimd.com or call us at (866) 544-3463.</p>
+        <a href="https://4fimd.com" class="btn">Return to Home</a>
       </div>
     </div>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Hide loading
       const loadingElement = document.getElementById('loading-element');
       if (loadingElement) loadingElement.style.display = 'none';
 
