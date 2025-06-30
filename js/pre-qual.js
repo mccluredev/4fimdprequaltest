@@ -13,6 +13,46 @@ document.addEventListener('DOMContentLoaded', function () {
   const urlParams = new URLSearchParams(window.location.search);
   isSubmitted = urlParams.get('submitted') === 'true';
 
+  // === CONDITIONAL FIELD LOGIC ===
+
+// 1. Show "Please specify" when Loan Purpose is "Other"
+const loanPurposeSelect = document.getElementById('00NHs00000scaqg');
+const otherPurposeField = document.getElementById('other-purpose');
+
+if (loanPurposeSelect && otherPurposeField) {
+  loanPurposeSelect.addEventListener('change', () => {
+    if (loanPurposeSelect.value === 'Other') {
+      otherPurposeField.classList.remove('hidden');
+      otherPurposeField.querySelector('textarea').setAttribute('required', 'required');
+    } else {
+      otherPurposeField.classList.add('hidden');
+      otherPurposeField.querySelector('textarea').removeAttribute('required');
+    }
+  });
+
+  // Trigger logic on page load
+  loanPurposeSelect.dispatchEvent(new Event('change'));
+}
+
+// 2. Show "Years in Business" when Business Established is "Yes"
+const businessEstablishedSelect = document.getElementById('00NHs00000lzslM');
+const yearsContainer = document.getElementById('years-container');
+
+if (businessEstablishedSelect && yearsContainer) {
+  businessEstablishedSelect.addEventListener('change', () => {
+    if (businessEstablishedSelect.value === 'Yes') {
+      yearsContainer.classList.remove('hidden');
+      yearsContainer.querySelector('input').setAttribute('required', 'required');
+    } else {
+      yearsContainer.classList.add('hidden');
+      yearsContainer.querySelector('input').removeAttribute('required');
+    }
+  });
+
+  // Trigger logic on page load
+  businessEstablishedSelect.dispatchEvent(new Event('change'));
+}
+
   formSections = Array.from(document.querySelectorAll('.section')).filter(s =>
     !['completion-screen', 'payment-calculator'].includes(s.id)
   );
