@@ -187,7 +187,7 @@ if (!isSubmitted) {
   const slider = document.getElementById('term-slider');
   if (slider) slider.addEventListener('input', updatePaymentCalculator);
 
-  if (form) {
+   if (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (!validateSection(formSections[currentSectionIndex])) return;
