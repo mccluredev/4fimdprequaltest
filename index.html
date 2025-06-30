@@ -703,6 +703,13 @@
         return { minTerm: 84, maxTerm: 144 };
       }
 
+      function formatCurrency(value) {
+        return new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD'
+        }).format(value);
+      }
+
       function updateTermLabels(min, max, current) {
         const labels = document.querySelectorAll('.term-labels span');
         if (labels.length === 3) {
