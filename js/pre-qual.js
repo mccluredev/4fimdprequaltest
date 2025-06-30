@@ -31,56 +31,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (completion) completion.classList.add('hidden');
     showSection(0);
   }
-});
-
-// === FORM FLOW ===
-function showSection(index) {
-  if (!formSections || formSections.length === 0) {
-    console.warn("formSections not initialized");
-    return;
-  }
-
-  console.log("showSection called with index:", index);
-  console.log("formSections:", formSections.map(s => s.id));
-
-  if (index < 0 || index >= formSections.length || isAnimating) return;
-  isAnimating = true;
-
-  const currentSection = formSections[currentSectionIndex];
-  const nextSection = formSections[index];
-
-  nextSection.classList.remove('hidden');
-  nextSection.classList.add('slide-enter');
-
-  void nextSection.offsetWidth;
-
-  currentSection.classList.add('slide-exit-active');
-  nextSection.classList.add('slide-enter-active');
-
-  setTimeout(() => {
-    currentSection.classList.add('hidden');
-    currentSection.classList.remove('slide-exit-active');
-    nextSection.classList.remove('slide-enter', 'slide-enter-active');
-
-    formSections.forEach((section, i) => {
-      if (i !== index) section.classList.add('hidden');
-    });
-
-    currentSectionIndex = index;
-    updateProgressBar(index);
-    isAnimating = false;
-  }, 500);
-}
-
-
-function updateProgressBar(index) {
-  const progressBar = document.querySelector('.progress-bar-fill');
-  const progressText = document.querySelector('.progress-text');
-  const total = formSections.length;
-  const percent = ((index + 1) / total) * 100;
-  if (progressBar) progressBar.style.width = `${percent}%`;
-  if (progressText) progressText.textContent = `Step ${index + 1} of ${total}`;
-}
 
   // === INPUT FORMATTING ===
   document.querySelectorAll('.currency:not([readonly])').forEach(input => {
@@ -123,66 +73,8 @@ function updateProgressBar(index) {
     });
   });
 
-  // === LOGIC ===
-  function validateSection(section) {
-    const inputs = section.querySelectorAll('input[required], select[required], textarea[required]');
-    let valid = true;
-    inputs.forEach(input => {
-      const val = input.value.trim();
-      if (input.type === 'email') valid = /^\S+@\S+\.\S+$/.test(val) && valid;
-      else if (input.type === 'tel') valid = /^\(\d{3}\) \d{3}-\d{4}$/.test(val) && valid;
-      else valid = val !== '' && valid;
-      input.classList.toggle('error-input', !valid);
-    });
-    return valid;
-  }
-
-  function calculateInterestRate(score, amt) {
-    score = parseInt(score); amt = parseInt(amt);
-    if (score >= 760) return amt < 10000 ? 15.99 : amt <= 75000 ? 14.99 : amt <= 150000 ? 13.99 : 12.99;
-    if (score >= 720) return amt < 10000 ? 16.99 : amt <= 75000 ? 15.99 : amt <= 150000 ? 14.99 : 13.99;
-    if (score >= 680) return amt < 10000 ? 17.99 : amt <= 75000 ? 16.99 : amt <= 150000 ? 15.99 : 14.99;
-    if (score >= 640) return amt < 10000 ? 18.99 : amt <= 75000 ? 17.99 : null;
-    return null;
-  }
-
-  function calculateMonthlyPayment(p, r, t) {
-    const monthlyRate = r / 100 / 12;
-    return p * monthlyRate * Math.pow(1 + monthlyRate, t) /
-           (Math.pow(1 + monthlyRate, t) - 1);
-  }
-
-  function updatePaymentCalculator() {
-    const amtField = document.getElementById('00NHs00000lzslH');
-    const scoreField = document.getElementById('00NHs00000m08cg');
-    const slider = document.getElementById('term-slider');
-    const display = document.getElementById('monthly-payment');
-    const rateLabel = document.getElementById('rate-text');
-    const termLabel = document.getElementById('current-term');
-
-    const amt = parseInt(amtField.value.replace(/[^0-9]/g, ''));
-    const score = scoreField.value;
-    const term = parseInt(slider.value);
-    const rate = calculateInterestRate(score, amt);
-
-    if (!rate) {
-      rateLabel.textContent = 'Contact us for rate details.';
-      display.textContent = 'Contact us';
-      return;
-    }
-
-    const payment = calculateMonthlyPayment(amt, rate, term);
-    display.textContent = payment.toLocaleString('en-US', {
-      style: 'currency', currency: 'USD'
-    });
-    rateLabel.textContent = `Your estimated interest rate is ${rate}% APR`;
-    termLabel.textContent = `${term} months`;
-  }
-
-  const slider = document.getElementById('term-slider');
-  if (slider) slider.addEventListener('input', updatePaymentCalculator);
-
-   if (form) {
+  // === FORM SUBMIT ===
+  if (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (!validateSection(formSections[currentSectionIndex])) return;
@@ -210,6 +102,7 @@ function updateProgressBar(index) {
     });
   }
 
+  // === PAYMENT DISPLAY ON REDIRECT ===
   if (isSubmitted) {
     const loanAmount = urlParams.get('amount') || localStorage.getItem('loan_amount') || '$0';
     const purpose = urlParams.get('purpose') || localStorage.getItem('loan_purpose') || 'Not specified';
@@ -236,3 +129,107 @@ function updateProgressBar(index) {
     }, 2000);
   }
 });
+
+// === FORM FLOW ===
+function showSection(index) {
+  if (!formSections || formSections.length === 0) {
+    console.warn("formSections not initialized");
+    return;
+  }
+
+  console.log("showSection called with index:", index);
+  if (index < 0 || index >= formSections.length || isAnimating) return;
+  isAnimating = true;
+
+  const currentSection = formSections[currentSectionIndex];
+  const nextSection = formSections[index];
+
+  nextSection.classList.remove('hidden');
+  nextSection.classList.add('slide-enter');
+
+  void nextSection.offsetWidth;
+
+  currentSection.classList.add('slide-exit-active');
+  nextSection.classList.add('slide-enter-active');
+
+  setTimeout(() => {
+    currentSection.classList.add('hidden');
+    currentSection.classList.remove('slide-exit-active');
+    nextSection.classList.remove('slide-enter', 'slide-enter-active');
+
+    formSections.forEach((section, i) => {
+      if (i !== index) section.classList.add('hidden');
+    });
+
+    currentSectionIndex = index;
+    updateProgressBar(index);
+    isAnimating = false;
+  }, 500);
+}
+
+function updateProgressBar(index) {
+  const progressBar = document.querySelector('.progress-bar-fill');
+  const progressText = document.querySelector('.progress-text');
+  const total = formSections.length;
+  const percent = ((index + 1) / total) * 100;
+  if (progressBar) progressBar.style.width = `${percent}%`;
+  if (progressText) progressText.textContent = `Step ${index + 1} of ${total}`;
+}
+
+function validateSection(section) {
+  const inputs = section.querySelectorAll('input[required], select[required], textarea[required]');
+  let valid = true;
+  inputs.forEach(input => {
+    const val = input.value.trim();
+    if (input.type === 'email') valid = /^\S+@\S+\.\S+$/.test(val) && valid;
+    else if (input.type === 'tel') valid = /^\(\d{3}\) \d{3}-\d{4}$/.test(val) && valid;
+    else valid = val !== '' && valid;
+    input.classList.toggle('error-input', !valid);
+  });
+  return valid;
+}
+
+function calculateInterestRate(score, amt) {
+  score = parseInt(score); amt = parseInt(amt);
+  if (score >= 760) return amt < 10000 ? 15.99 : amt <= 75000 ? 14.99 : amt <= 150000 ? 13.99 : 12.99;
+  if (score >= 720) return amt < 10000 ? 16.99 : amt <= 75000 ? 15.99 : amt <= 150000 ? 14.99 : 13.99;
+  if (score >= 680) return amt < 10000 ? 17.99 : amt <= 75000 ? 16.99 : amt <= 150000 ? 15.99 : 14.99;
+  if (score >= 640) return amt < 10000 ? 18.99 : amt <= 75000 ? 17.99 : null;
+  return null;
+}
+
+function calculateMonthlyPayment(p, r, t) {
+  const monthlyRate = r / 100 / 12;
+  return p * monthlyRate * Math.pow(1 + monthlyRate, t) /
+         (Math.pow(1 + monthlyRate, t) - 1);
+}
+
+function updatePaymentCalculator() {
+  const amtField = document.getElementById('00NHs00000lzslH');
+  const scoreField = document.getElementById('00NHs00000m08cg');
+  const slider = document.getElementById('term-slider');
+  const display = document.getElementById('monthly-payment');
+  const rateLabel = document.getElementById('rate-text');
+  const termLabel = document.getElementById('current-term');
+
+  const amt = parseInt(amtField.value.replace(/[^0-9]/g, ''));
+  const score = scoreField.value;
+  const term = parseInt(slider.value);
+  const rate = calculateInterestRate(score, amt);
+
+  if (!rate) {
+    rateLabel.textContent = 'Contact us for rate details.';
+    display.textContent = 'Contact us';
+    return;
+  }
+
+  const payment = calculateMonthlyPayment(amt, rate, term);
+  display.textContent = payment.toLocaleString('en-US', {
+    style: 'currency', currency: 'USD'
+  });
+  rateLabel.textContent = `Your estimated interest rate is ${rate}% APR`;
+  termLabel.textContent = `${term} months`;
+}
+
+const slider = document.getElementById('term-slider');
+if (slider) slider.addEventListener('input', updatePaymentCalculator);
