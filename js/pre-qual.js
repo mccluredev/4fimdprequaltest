@@ -63,19 +63,51 @@ if (businessEstablished) {
 
   if (isSubmitted) {
   console.log("💡 In 'submitted' mode");
-  
-  // Hide all sections
+
+  // Hide all form sections
   formSections.forEach(section => section.classList.add('hidden'));
 
-  // Show loading screen
+  // Show loading screen first
   if (loadingScreen) loadingScreen.classList.remove('hidden');
 
-  // Simulate processing delay and then show result
+  // Grab loan data from URL or localStorage
+  const loanAmount = urlParams.get('amount') || localStorage.getItem('loan_amount') || '$0';
+  const purpose = urlParams.get('purpose') || localStorage.getItem('loan_purpose') || 'Not specified';
+
+  // Safely update display fields
+  const loanEl = document.getElementById('display-loan-amount');
+  const purposeEl = document.getElementById('display-loan-purpose');
+  if (loanEl) loanEl.textContent = loanAmount;
+  if (purposeEl) purposeEl.textContent = purpose;
+
+  // Load stored score (fallback to 720)
+  let storedScore = '720';
+  try {
+    const storedData = JSON.parse(localStorage.getItem('prequalFormData'));
+    if (storedData && storedData['00NHs00000m08cg']) {
+      storedScore = storedData['00NHs00000m08cg'];
+      const creditScoreField = document.getElementById('00NHs00000m08cg');
+      if (creditScoreField) creditScoreField.value = storedScore;
+    }
+  } catch (e) {
+    console.error("⚠️ Error loading stored form data", e);
+  }
+
+  // Simulate loading delay, then show results + calculator
   setTimeout(() => {
     if (loadingScreen) loadingScreen.classList.add('hidden');
     if (completion) completion.classList.remove('hidden');
-    updatePaymentCalculator(); // make sure this updates AFTER DOM is visible
+    if (calculator) calculator.classList.remove('hidden');
+    updatePaymentCalculator(); // ensure monthly payment is calculated
   }, 1500);
+
+  // Optional: clear data after showing
+  setTimeout(() => {
+    localStorage.removeItem('formSubmitted');
+    localStorage.removeItem('prequalFormData');
+    localStorage.removeItem('loan_amount');
+    localStorage.removeItem('loan_purpose');
+  }, 3000);
 }
 
   // === INPUT FORMATTING ===
@@ -106,7 +138,6 @@ if (businessEstablished) {
       e.preventDefault();
       const current = formSections[currentSectionIndex];
       if (validateSection(current)) {
-        if (currentSectionIndex === 3) updatePaymentCalculator();
         showSection(currentSectionIndex + 1);
       }
     });
@@ -314,5 +345,5 @@ function updatePaymentCalculator() {
   currentTerm.textContent = `${term} months`;
 }
 
-const slider = document.getElementById('term-slider');
+const slider = document.getElementById('term-slider-completion');
 if (slider) slider.addEventListener('input', updatePaymentCalculator);
