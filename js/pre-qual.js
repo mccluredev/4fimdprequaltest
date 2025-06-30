@@ -1,12 +1,24 @@
+// Declare shared variables up top
+let formSections = [];
+let currentSectionIndex = 0;
+let isAnimating = false;
+let isSubmitted = false;
+let calculator = null;
+let completion = null;
+let form = null;
+let loadingScreen = null;
+
 document.addEventListener('DOMContentLoaded', function () {
   const urlParams = new URLSearchParams(window.location.search);
-  const isSubmitted = urlParams.get('submitted') === 'true';
+  isSubmitted = urlParams.get('submitted') === 'true';
 
-  const formSections = Array.from(document.querySelectorAll('.section')).filter(s =>
+  formSections = Array.from(document.querySelectorAll('.section')).filter(s =>
     !['completion-screen', 'payment-calculator'].includes(s.id)
   );
-  const calculator = document.getElementById('payment-calculator');
-  const completion = document.getElementById('completion-screen');
+  calculator = document.getElementById('payment-calculator');
+  completion = document.getElementById('completion-screen');
+  form = document.getElementById("prequalForm");
+  loadingScreen = document.getElementById("loading-screen");
 
   if (isSubmitted) {
     formSections.forEach(section => section.classList.add('hidden'));
@@ -15,10 +27,12 @@ document.addEventListener('DOMContentLoaded', function () {
   } else {
     if (calculator) calculator.classList.add('hidden');
     if (completion) completion.classList.add('hidden');
-    // Show first section explicitly
-    formSections[0].classList.remove('hidden');
+
+    // Properly initialize view
+    showSection(0);
   }
 });
+
 
 
 // === FORM FLOW ===
