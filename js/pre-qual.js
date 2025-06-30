@@ -234,5 +234,4 @@ function updateProgressBar(index) {
       localStorage.removeItem('loan_amount');
       localStorage.removeItem('loan_purpose');
     }, 2000);
-  }
 });
