@@ -1,3 +1,4 @@
+
 /* Load AtHauss from Squarespace CDN */
 @font-face {
   font-family: 'AtHauss';
@@ -6,11 +7,20 @@
   font-style: normal;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
 .prequal-flow {
   font-family: 'AtHauss', sans-serif;
-  max-width: 800px;
-  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   padding: 20px;
+  box-sizing: border-box;
+  background-color: var(--color-bg);
 }
 
 /* Hide sections by default */
@@ -132,26 +142,10 @@ body.submitted #completion-screen {
   display: none !important;
 }
 
-.prequal-flow html,
-.prequal-flow body {
-  overflow: hidden;
-  height: 100%;
-  background-color: var(--color-bg) !important;
-  font-family: var(--font-primary);
-  color: var(--color-text);
-  align-items: flex-start !important;
-  justify-content: flex-start !important;
-  margin: 0;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-}
-
 .prequal-flow .container {
   width: 100%;
   max-width: 800px;
 }
-
 
 .prequal-flow button,
 .prequal-flow .apply-button,
@@ -242,15 +236,6 @@ body.submitted #completion-screen {
 
 .prequal-flow input[type="email"] {
   font-family: var(--font-primary);
-}
-
-.prequal-flow {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-  box-sizing: border-box;
 }
 
 /* Responsive Adjustments from WP CSS */
