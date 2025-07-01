@@ -266,114 +266,116 @@ body.submitted #completion-screen {
   }
 }
 
+.prequal-flow .btn {
+  background-color: var(--color-accent) !important;
+  color: var(--color-text) !important;
+  border-radius: 9999px !important;
+  font-family: var(--font-primary);
+  font-weight: 600;
+  box-shadow: none;
+  transition: box-shadow 0.3s ease;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.prequal-flow .btn:hover {
+  box-shadow: 0 4px 12px rgba(47, 202, 178, 0.3);
+}
+
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.card h3 {
+  color: var(--color-border);
+  margin-top: 0;
+  font-family: var(--font-primary);
+}
+
+.card p {
+  color: var(--color-text);
+  font-family: var(--font-primary);
+  line-height: 1.6;
+}
+
+.payment-display {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.payment-display label {
+  color: var(--color-text);
+  font-family: var(--font-primary);
+  font-size: 18px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.payment-display .amount {
+  font-size: 48px;
+  font-weight: bold;
+  color: var(--color-accent);
+  font-family: var(--font-primary);
+}
+
+.term-slider-container {
+  margin: 30px 0;
+}
+
 .term-slider {
-  outline: none !important;
-  box-shadow: none !important;
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: #eee;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 20px 0;
 }
 
-.term-slider:focus,
-.term-slider:active,
-.term-slider:hover {
-  outline: none !important;
-  box-shadow: none !important;
+.term-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-    .card {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-      padding: 32px;
-      margin-bottom: 32px;
-    }
+.term-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
 
-    .payment-display {
-      text-align: center;
-      margin: 24px 0;
-    }
+.term-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-primary);
+  color: var(--color-text);
+  font-size: 14px;
+}
 
-    .payment-display .amount {
-      font-size: 52px;
-      font-weight: bold;
-      color: var(--color-accent);
-      margin: 12px 0;
-    }
-
-    .term-slider-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 24px 0 16px;
-    }
-
-    .term-slider {
-      width: 100%;
-      max-width: 600px;
-      height: 6px;
-      appearance: none;
-      background: linear-gradient(to right, var(--color-accent) 50%, #eee 50%);
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
-      border-radius: 8px;
-      outline: none;
-      transition: background 0.3s ease;
-    }
-
-    .term-slider::-webkit-slider-thumb {
-      appearance: none;
-      height: 20px;
-      width: 20px;
-      border-radius: 50%;
-      background: var(--color-accent);
-      cursor: pointer;
-      border: none;
-      margin-top: -7px;
-    }
-
-    .term-slider::-moz-range-thumb {
-      height: 20px;
-      width: 20px;
-      border-radius: 50%;
-      background: var(--color-accent);
-      cursor: pointer;
-      border: none;
-    }
-
-    .term-labels {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 8px;
-      font-size: 14px;
-      color: var(--color-text);
-      width: 100%;
-      max-width: 600px;
-    }
-
-    .disclaimer {
-      font-size: 13px;
-      color: var(--color-text);
-      text-align: center;
-      font-style: italic;
-      margin-top: 16px;
-    }
-
-    .btn {
-      display: inline-block;
-      background-color: var(--color-accent);
-      color: white;
-      padding: 12px 24px;
-      border-radius: 9999px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: box-shadow 0.3s ease;
-      font-family: var(--font-primary);
-      font-size: 16px;
-    }
-
-    .btn:hover {
-      box-shadow: 0 4px 12px rgba(47, 202, 178, 0.3);
-    }
-
-    .card h3 {
-      color: var(--color-border);
-    }
+.disclaimer {
+  font-style: italic;
+  color: #666;
+  font-size: 14px;
+  margin-top: 20px;
+}
 
