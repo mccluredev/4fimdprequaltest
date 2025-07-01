@@ -287,6 +287,11 @@ body.submitted #completion-screen {
   box-shadow: 0 4px 12px rgba(47, 202, 178, 0.3);
 }
 
+.prequal-flow .container {
+  width: 100%;
+  max-width: 800px;
+}
+
 .card {
   background: white;
   padding: 30px;
@@ -335,27 +340,15 @@ body.submitted #completion-screen {
   width: 100%;
   height: 8px;
   border-radius: 4px;
-  background: #eee;
+  background: linear-gradient(to right, var(--color-accent) 50%, #eee 50%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
   outline: none;
   -webkit-appearance: none;
   appearance: none;
   margin: 20px 0;
-}
-
-.term-slider-container {
   position: relative;
-}
-
-.term-slider-fill {
-  position: absolute;
-  height: 8px;
-  background-color: var(--color-accent);
-  border-radius: 4px;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  pointer-events: none;
-  z-index: 1;
+  z-index: 2;
 }
 
 .term-slider::-webkit-slider-thumb {
@@ -368,6 +361,8 @@ body.submitted #completion-screen {
   cursor: pointer;
   border: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 2;
 }
 
 .term-slider::-moz-range-thumb {
@@ -378,12 +373,8 @@ body.submitted #completion-screen {
   cursor: pointer;
   border: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.term-slider {
   position: relative;
   z-index: 2;
-  background: transparent; /* Let the fill show behind it */
 }
 
 .term-labels {
@@ -401,3 +392,51 @@ body.submitted #completion-screen {
   margin-top: 20px;
 }
 
+.prequal-flow .btn {
+  background-color: var(--color-accent) !important;
+  color: var(--color-text) !important;
+  border-radius: 9999px !important;
+  font-family: var(--font-primary);
+  font-weight: 600;
+  box-shadow: none;
+  transition: box-shadow 0.3s ease;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.prequal-flow .btn:hover {
+  box-shadow: 0 4px 12px rgba(47, 202, 178, 0.3);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .prequal-flow .container {
+    width: 100%;
+    padding: 10px;
+    min-width: auto;
+  }
+  .prequal-flow .form-row {
+    flex-direction: column;
+  }
+  .prequal-flow .term-labels {
+    flex-direction: column;
+    align-items: center;
+  }
+  .prequal-flow .amount {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  .prequal-flow .payment-display .amount {
+    font-size: 28px;
+  }
+  .prequal-flow .container {
+    padding: 10px;
+  }
+}
