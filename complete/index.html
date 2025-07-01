@@ -36,34 +36,34 @@
     .term-slider {
       width: 80%;
       margin: 0 auto;
-      outline: none !important;
-      box-shadow: none !important;
-      background-color: white !important;
+      outline: none;
+      appearance: none;
+      height: 6px;
+      border-radius: 5px;
+      background: linear-gradient(to right, var(--color-accent) 50%, #eee 50%);
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      transition: background 0.3s ease;
     }
 
     .term-slider::-webkit-slider-thumb {
-      accent-color: var(--color-accent);
-      background: var(--color-accent) !important;
+      appearance: none;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      cursor: pointer;
+      margin-top: -7px;
+      border: none;
     }
 
     .term-slider::-moz-range-thumb {
-      background: var(--color-accent) !important;
-    }
-
-    .term-slider::-webkit-slider-runnable-track,
-    .term-slider::-moz-range-track {
-      background: white !important;
-    }
-
-    .term-slider::-webkit-slider-thumb:focus,
-    .term-slider::-webkit-slider-thumb:active,
-    .term-slider::-webkit-slider-thumb:hover,
-    .term-slider::-moz-range-thumb:focus,
-    .term-slider::-moz-range-thumb:active,
-    .term-slider::-moz-range-thumb:hover {
-      outline: none !important;
-      box-shadow: none !important;
-      border: none !important;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      cursor: pointer;
+      border: none;
     }
 
     .term-labels {
@@ -86,7 +86,7 @@
     .btn {
       display: inline-block;
       background-color: var(--color-accent);
-      color: white !important;
+      color: white;
       padding: 12px 20px;
       border-radius: 9999px;
       text-decoration: none;
@@ -102,6 +102,22 @@
       color: var(--color-border);
     }
   </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const termSlider = document.getElementById('term-slider');
+      const min = +termSlider.min;
+      const max = +termSlider.max;
+
+      function updateSliderFill() {
+        const val = +termSlider.value;
+        const percentage = ((val - min) / (max - min)) * 100;
+        termSlider.style.background = `linear-gradient(to right, var(--color-accent) ${percentage}%, #eee ${percentage}%)`;
+      }
+
+      termSlider.addEventListener('input', updateSliderFill);
+      updateSliderFill();
+    });
+  </script>
 </head>
 <body class="completion-page">
   <div class="prequal-flow">
