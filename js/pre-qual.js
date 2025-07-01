@@ -15,24 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById("prequalForm");
     const paymentCalculator = document.getElementById('payment-calculator');
     const loadingScreen = document.getElementById('loading-screen');
-
-    // Prevent step progression if required fields are not filled
-   document.querySelectorAll("button.next").forEach(button => {
-  button.addEventListener("click", function (e) {
-    const form = document.getElementById("prequalForm"); // or use this.closest('form')
-    if (!form.checkValidity()) {
-      e.preventDefault();
-      form.reportValidity();
-      console.log("❌ Validation failed. Check required fields.");
-      return; // Stop here!
-    }
-
-    // ✅ Only run step advancement if form is valid
-    console.log("✅ All fields valid. Moving to next step...");
-    goToNextSection(); // <-- whatever you're using to move forward
-  });
-});
-
     
     // Check if sections exist
     if (sections.length === 0) {
