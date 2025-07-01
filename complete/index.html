@@ -1,26 +1,10 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Application Complete</title>
   <link rel="stylesheet" href="../css/main.css" />
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const termSlider = document.getElementById('term-slider');
-      const min = +termSlider.min;
-      const max = +termSlider.max;
-
-      function updateSliderFill() {
-        const val = +termSlider.value;
-        const percentage = ((val - min) / (max - min)) * 100;
-        termSlider.style.background = `linear-gradient(to right, var(--color-accent) ${percentage}%, #eee ${percentage}%)`;
-      }
-
-      termSlider.addEventListener('input', updateSliderFill);
-      updateSliderFill();
-    });
-  </script>
 </head>
 <body class="completion-page">
   <div class="prequal-flow">
@@ -28,20 +12,20 @@
 
       <div class="card">
         <h3>Your Estimated Offer</h3>
-        <p><strong>Requested Loan Amount:</strong> <span id="display-loan-amount">$0</span></p>
-        <p><strong>Loan Purpose:</strong> <span id="display-loan-purpose">Not specified</span></p>
+        <p><strong>Requested Loan Amount:</strong> <span id="display-loan-amount">$25,000</span></p>
+        <p><strong>Loan Purpose:</strong> <span id="display-loan-purpose">Debt Consolidation</span></p>
 
         <div class="payment-display">
           <label>Estimated Monthly Payment:</label>
-          <div id="monthly-payment" class="amount">$0.00</div>
+          <div id="monthly-payment" class="amount">$567.89</div>
         </div>
 
         <div class="term-slider-container">
-          <input type="range" id="term-slider" class="term-slider" min="6" max="144" step="6" value="60">
+          <input type="range" id="term-slider" class="term-slider" min="36" max="120" step="6" value="60">
           <div class="term-labels">
-            <span>6 months</span>
+            <span id="min-term">36 months</span>
             <span id="current-term">60 months</span>
-            <span>144 months</span>
+            <span id="max-term">120 months</span>
           </div>
         </div>
 
@@ -62,12 +46,24 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      const accentColor = '#2FCAB2';
+      
+      const termSlider = document.getElementById('term-slider');
+      const min = +termSlider.min;
+      const max = +termSlider.max;
+
+      function updateSliderFill() {
+        const val = +termSlider.value;
+        const percentage = ((val - min) / (max - min)) * 100;
+        termSlider.style.background = `linear-gradient(to right, ${accentColor} ${percentage}%, #eee ${percentage}%)`;
+      }
+
       const loanAmount = localStorage.getItem('loan_amount') || '$0';
       const purpose = localStorage.getItem('loan_purpose') || 'Not specified';
-
+      
       document.getElementById('display-loan-amount').textContent = loanAmount;
       document.getElementById('display-loan-purpose').textContent = purpose;
-
+      
       let creditScore = 720;
       try {
         const storedData = JSON.parse(localStorage.getItem('prequalFormData'));
@@ -75,13 +71,11 @@
           creditScore = storedData['00NHs00000m08cg'];
         }
       } catch (e) {
-        console.error('Form data error', e);
-      }
+        conso
 
       const amountValue = parseInt(loanAmount.replace(/[^0-9]/g, '')) || 0;
       const estimatedRate = calculateInterestRate(creditScore, amountValue);
 
-      const termSlider = document.getElementById('term-slider');
       const currentTerm = document.getElementById('current-term');
       const monthlyPaymentDisplay = document.getElementById('monthly-payment');
 
@@ -93,6 +87,8 @@
       }
 
       updateTermLabels(minTerm, maxTerm, termSlider.value);
+      updateSliderFill(); 
+      
       monthlyPaymentDisplay.textContent = formatCurrency(
         calculateMonthlyPayment(amountValue, estimatedRate, +termSlider.value)
       );
@@ -103,12 +99,8 @@
         monthlyPaymentDisplay.textContent = formatCurrency(
           calculateMonthlyPayment(amountValue, estimatedRate, term)
         );
+        updateSliderFill(); 
       });
-
-      localStorage.removeItem('formSubmitted');
-      localStorage.removeItem('prequalFormData');
-      localStorage.removeItem('loan_amount');
-      localStorage.removeItem('loan_purpose');
 
       function formatCurrency(v) {
         return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(v);
@@ -137,13 +129,14 @@
       }
 
       function updateTermLabels(min, max, current) {
-        const labels = document.querySelectorAll('.term-labels span');
-        if (labels.length === 3) {
-          labels[0].textContent = `${min} months`;
-          labels[2].textContent = `${max} months`;
-          labels[1].textContent = `${current} months`;
-        }
+        document.getElementById('min-term').textContent = `${min} months`;
+        document.getElementById('max-term').textContent = `${max} months`;
+        document.getElementById('current-term').textContent = `${current} months`;
       }
+        localStorage.removeItem('formSubmitted');
+        localStorage.removeItem('prequalFormData');
+        localStorage.removeItem('loan_amount');
+        localStorage.removeItem('loan_purpose');
     });
   </script>
 </body>
