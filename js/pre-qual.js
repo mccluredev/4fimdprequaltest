@@ -470,27 +470,27 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Set up navigation buttons - NEXT buttons
-    document.querySelectorAll('.next-button').forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log("Next button clicked!");
-            
-            const currentSection = sections[currentSectionIndex];
-            
-            if (validateSection(currentSection)) {
-                console.log("Validation passed, moving to next section...");
-                
-                // If moving to the payment calculator section, update it first
-                if (currentSectionIndex === 3) {
-                    updatePaymentCalculator();
-                }
-                
-                showSection(currentSectionIndex + 1);
-            } else {
-                console.error("Validation failed. Check required fields.");
-            }
-        });
-    });
+  document.body.addEventListener('click', function(e) {
+  if (e.target && e.target.classList.contains('next-button')) {
+    e.preventDefault();
+    console.log("Next button clicked (delegated)!");
+
+    const currentSection = sections[currentSectionIndex];
+
+    if (validateSection(currentSection)) {
+      console.log("Validation passed, moving to next section...");
+
+      if (currentSectionIndex === 3) {
+        updatePaymentCalculator();
+      }
+
+      showSection(currentSectionIndex + 1);
+    } else {
+      console.error("Validation failed. Required fields missing.");
+    }
+  }
+});
+
     
     // Set up navigation buttons - BACK buttons
     document.querySelectorAll('.back-button').forEach(button => {
