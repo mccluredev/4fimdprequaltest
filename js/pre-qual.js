@@ -332,43 +332,36 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Form validation
-    window.validateSection = function(section) {
-    console.log("Validating section:", section);
-    
-    if (!section) {
-        console.error("Error: Section is undefined or null.");
-        return false;
+ // Form validation
+window.validateSection = function(section) {
+  console.log("Validating section:", section);
+  
+  if (!section) {
+    console.error("Error: Section is undefined or null.");
+    return false;
+  }
+  
+  const inputs = section.querySelectorAll('input[required], select[required], textarea[required]');
+  console.log("Inputs found for validation:", inputs);
+
+  let isValid = true;
+
+  inputs.forEach(input => {
+    const valid = input.checkValidity(); // native HTML5 check
+    console.log(`Validating input: ${input.name || input.id}, checkValidity: ${valid}`);
+
+    if (!valid) {
+      input.reportValidity(); // shows red outline/message
+      input.classList.add('error-input'); // Add error style
+      isValid = false;
+    } else {
+      input.classList.remove('error-input');
     }
-    
-    const inputs = section.querySelectorAll('input[required], select[required], textarea[required]');
-    console.log("Inputs found for validation:", inputs);
+  });
 
-    let isValid = true;
-
-    inputs.forEach(input => {
-        const valid = input.checkValidity(); // native HTML5 check
-        console.log(`Validating input: ${input.name || input.id}, checkValidity: ${valid}`);
-
-        if (!valid) {
-            input.reportValidity(); // shows red outline/message
-            isValid = false;
-        }
-
-        // OPTIONAL: Custom styling (fallback)
-        if (!valid) {
-            input.classList.add('error-input');
-        } else {
-            input.classList.remove('error-input');
-        }
-    });
-
-    console.log("✅ Final validation result for section:", isValid ? "✔️ Passed" : "❌ Failed");
-    return isValid;
+  return isValid; // ✅ This was missing
 };
 
-    
-    console.log("✅ validateSection function is now globally available.");
     
     // Calculate interest rate based on FICO score and loan amount
     function calculateInterestRate(creditScore, loanAmount) {
