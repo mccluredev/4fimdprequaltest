@@ -342,6 +342,22 @@ body.submitted #completion-screen {
   margin: 20px 0;
 }
 
+.term-slider-container {
+  position: relative;
+}
+
+.term-slider-fill {
+  position: absolute;
+  height: 8px;
+  background-color: var(--color-accent);
+  border-radius: 4px;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
 .term-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
@@ -362,6 +378,12 @@ body.submitted #completion-screen {
   cursor: pointer;
   border: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.term-slider {
+  position: relative;
+  z-index: 2;
+  background: transparent; /* Let the fill show behind it */
 }
 
 .term-labels {
