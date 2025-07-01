@@ -467,7 +467,8 @@ document.body.addEventListener('click', function(e) {
   const target = e.target;
 
   // NEXT button handler
-  if (target && target.classList.contains('next-button')) {
+ const nextButton = target.closest('.next-button');
+    if (nextButton) {
     e.preventDefault();
     console.log("Next button clicked (delegated)");
 
