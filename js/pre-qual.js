@@ -15,6 +15,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById("prequalForm");
     const paymentCalculator = document.getElementById('payment-calculator');
     const loadingScreen = document.getElementById('loading-screen');
+
+    // Prevent step progression if required fields are not filled
+    document.querySelectorAll("button.next").forEach(button => {
+      button.addEventListener("click", function (e) {
+        const form = this.closest("form");
+        if (form && !form.checkValidity()) {
+          e.preventDefault();
+          form.reportValidity(); // shows the red highlights
+        }
+      });
+    });
     
     // Check if sections exist
     if (sections.length === 0) {
