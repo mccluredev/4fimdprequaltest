@@ -469,40 +469,39 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Set up navigation buttons - NEXT buttons
-  document.body.addEventListener('click', function(e) {
-  if (e.target && e.target.classList.contains('next-button')) {
+ // Handle NEXT and BACK via event delegation
+document.body.addEventListener('click', function(e) {
+  const target = e.target;
+
+  // NEXT button handler
+  if (target && target.classList.contains('next-button')) {
     e.preventDefault();
-    console.log("Next button clicked (delegated)!");
+    console.log("Next button clicked (delegated)");
 
     const currentSection = sections[currentSectionIndex];
 
     if (validateSection(currentSection)) {
-      console.log("Validation passed, moving to next section...");
-
+      console.log("✅ Validation passed, moving forward");
       if (currentSectionIndex === 3) {
         updatePaymentCalculator();
       }
-
       showSection(currentSectionIndex + 1);
     } else {
-      console.error("Validation failed. Required fields missing.");
+      console.error("❌ Validation failed. Not moving forward.");
+    }
+  }
+
+  // BACK button handler
+  if (target && target.classList.contains('back-button')) {
+    e.preventDefault();
+    console.log("Back button clicked (delegated)");
+
+    if (currentSectionIndex > 0) {
+      showSection(currentSectionIndex - 1);
     }
   }
 });
 
-    
-    // Set up navigation buttons - BACK buttons
-    document.querySelectorAll('.back-button').forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log("Back button clicked!");
-            
-            if (currentSectionIndex > 0) {
-                showSection(currentSectionIndex - 1);
-            }
-        });
-    });
     
     // Form submission handler for Salesforce
     if (form) {
