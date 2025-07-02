@@ -354,3 +354,41 @@ body.submitted #completion-screen {
     gap: 8px;
   }
 }
+
+/* === Fix tight spacing in form layout === */
+
+.prequal-flow .card h3,
+.prequal-flow h3,
+.prequal-flow h2,
+.prequal-flow h1 {
+  margin-bottom: 24px;
+  font-size: 1.5rem;
+}
+
+.prequal-flow label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.prequal-flow input,
+.prequal-flow select,
+.prequal-flow textarea {
+  margin-bottom: 32px;
+  padding: 16px 14px;
+}
+
+.prequal-flow .btn,
+.prequal-flow .next-button,
+.prequal-flow .submit-button,
+.prequal-flow .back-button {
+  margin-top: 24px;
+  margin-bottom: 48px;
+  padding: 14px 28px;
+}
+
+/* Optional: add space below each form section */
+.prequal-flow .card {
+  margin-bottom: 40px;
+}
+
