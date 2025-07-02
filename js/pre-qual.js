@@ -42,10 +42,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Hide all sections
-        sections.forEach(section => section.classList.add('hidden'));
+        sections.forEach(section => {
+            section.classList.add('hidden');
+            section.classList.remove('active');
+        });
         
         // Show the target section
         sections[index].classList.remove('hidden');
+        sections[index].classList.add('active');
         
         // Update our tracking variable
         currentSectionIndex = index;
@@ -76,6 +80,61 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize with first section
     showSection(0);
+    
+    // IMPROVED VALIDATION FUNCTION
+    function validateSection(section) {
+        console.log("🔍 Validating section:", section);
+        
+        if (!section) {
+            console.error("❌ Error: Section is undefined or null.");
+            return false;
+        }
+        
+        // Get all required inputs in this section
+        const requiredInputs = section.querySelectorAll('input[required], select[required], textarea[required]');
+        console.log(`📋 Found ${requiredInputs.length} required inputs for validation`);
+
+        let isValid = true;
+        let firstInvalidInput = null;
+
+        requiredInputs.forEach(input => {
+            // Clear previous error styles
+            input.classList.remove('error-input');
+            
+            // Check if input has a value
+            let hasValue = false;
+            
+            if (input.type === 'select-one' || input.tagName.toLowerCase() === 'select') {
+                hasValue = input.value && input.value.trim() !== '';
+            } else {
+                hasValue = input.value && input.value.trim() !== '';
+            }
+            
+            console.log(`🔍 Validating ${input.name || input.id}: "${input.value}" - Valid: ${hasValue}`);
+
+            if (!hasValue) {
+                // Add error styling
+                input.classList.add('error-input');
+                
+                // Focus on first invalid input
+                if (!firstInvalidInput) {
+                    firstInvalidInput = input;
+                }
+                
+                isValid = false;
+                console.log(`❌ Validation failed for: ${input.name || input.id}`);
+            }
+        });
+
+        // Focus on first invalid input and show validation message
+        if (!isValid && firstInvalidInput) {
+            firstInvalidInput.focus();
+            firstInvalidInput.reportValidity();
+        }
+
+        console.log(`📊 Section validation result: ${isValid ? '✅ PASSED' : '❌ FAILED'}`);
+        return isValid;
+    }
     
     // NEW FUNCTION: Calculate the valid term range based on loan amount
     function calculateTermRange(loanAmount) {
@@ -332,37 +391,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
- // Form validation
-window.validateSection = function(section) {
-  console.log("Validating section:", section);
-  
-  if (!section) {
-    console.error("Error: Section is undefined or null.");
-    return false;
-  }
-  
-  const inputs = section.querySelectorAll('input[required], select[required], textarea[required]');
-  console.log("Inputs found for validation:", inputs);
-
-  let isValid = true;
-
-  inputs.forEach(input => {
-    const valid = input.checkValidity(); // native HTML5 check
-    console.log(`Validating input: ${input.name || input.id}, checkValidity: ${valid}`);
-
-    if (!valid) {
-      input.reportValidity(); // shows red outline/message
-      input.classList.add('error-input'); // Add error style
-      isValid = false;
-    } else {
-      input.classList.remove('error-input');
-    }
-  });
-
-  return isValid; // ✅ This was missing
-};
-
-    
     // Calculate interest rate based on FICO score and loan amount
     function calculateInterestRate(creditScore, loanAmount) {
         const amount = parseInt(loanAmount.replace(/[^0-9]/g, ''));
@@ -462,40 +490,47 @@ window.validateSection = function(section) {
         });
     }
     
- // Handle NEXT and BACK via event delegation
-document.body.addEventListener('click', function(e) {
-  const target = e.target;
+    // NAVIGATION EVENT HANDLERS - Remove the inline script conflicts
+    // Handle NEXT and BACK via event delegation
+    document.body.addEventListener('click', function(e) {
+        const target = e.target;
 
-  // NEXT button handler
- const nextButton = target.closest('.next-button');
-    if (nextButton) {
-    e.preventDefault();
-    console.log("Next button clicked (delegated)");
+        // NEXT button handler
+        const nextButton = target.closest('.next-button');
+        if (nextButton) {
+            e.preventDefault();
+            e.stopPropagation(); // Prevent bubbling
+            console.log("🚀 Next button clicked");
 
-    const currentSection = sections[currentSectionIndex];
+            const currentSection = sections[currentSectionIndex];
+            console.log(`📍 Current section index: ${currentSectionIndex}`);
 
-    if (validateSection(currentSection)) {
-      console.log("✅ Validation passed, moving forward");
-      if (currentSectionIndex === 3) {
-        updatePaymentCalculator();
-      }
-      showSection(currentSectionIndex + 1);
-    } else {
-      console.error("❌ Validation failed. Not moving forward.");
-    }
-  }
+            if (validateSection(currentSection)) {
+                console.log("✅ Validation passed, moving forward");
+                if (currentSectionIndex === 3) {
+                    updatePaymentCalculator();
+                }
+                if (currentSectionIndex < sections.length - 1) {
+                    showSection(currentSectionIndex + 1);
+                }
+            } else {
+                console.error("❌ Validation failed. Not moving forward.");
+            }
+            return;
+        }
 
-  // BACK button handler
-  if (target && target.classList.contains('back-button')) {
-    e.preventDefault();
-    console.log("Back button clicked (delegated)");
+        // BACK button handler
+        if (target && target.classList.contains('back-button')) {
+            e.preventDefault();
+            e.stopPropagation(); // Prevent bubbling
+            console.log("⬅️ Back button clicked");
 
-    if (currentSectionIndex > 0) {
-      showSection(currentSectionIndex - 1);
-    }
-  }
-});
-
+            if (currentSectionIndex > 0) {
+                showSection(currentSectionIndex - 1);
+            }
+            return;
+        }
+    });
     
     // Form submission handler for Salesforce
     if (form) {
