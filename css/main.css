@@ -365,10 +365,10 @@ body.submitted #completion-screen {
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 320px) {
   .term-labels {
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
   }
 }
 
