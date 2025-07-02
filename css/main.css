@@ -1,3 +1,4 @@
+
 /* Load AtHauss from Squarespace CDN */
 @font-face {
   font-family: 'AtHauss';
@@ -280,4 +281,24 @@ body.submitted #completion-screen {
     font-size: 28px;
   }
 }
-""")
+
+
+/* Improved vertical spacing between form elements */
+.prequal-flow label {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.prequal-flow input,
+.prequal-flow select,
+.prequal-flow textarea {
+  margin-bottom: 20px;
+}
+
+.prequal-flow .btn,
+.prequal-flow .next-button,
+.prequal-flow .submit-button,
+.prequal-flow .back-button {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
