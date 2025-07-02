@@ -253,12 +253,28 @@ body.submitted #completion-screen {
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* Desktop: keep buttons side by side */
 }
 
 .button-container button {
   flex: 1 1 auto;
   max-width: 48%;
+}
+
+/* Mobile: stack buttons, Submit on top */
+@media (max-width: 768px) {
+  .button-container {
+    flex-direction: column-reverse;
+  }
+
+  .button-container button {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .button-container .submit-button {
+    margin-bottom: 16px; /* space between submit and back */
+  }
 }
 
 /* === Responsive Adjustments & Mobile Refinements === */
