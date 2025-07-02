@@ -302,3 +302,43 @@ body.submitted #completion-screen {
   margin-top: 10px;
   margin-bottom: 20px;
 }
+
+
+
+/* === Enhanced spacing for mobile and better UX === */
+.prequal-flow label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.prequal-flow input,
+.prequal-flow select,
+.prequal-flow textarea {
+  margin-bottom: 24px;
+  padding: 14px 12px;
+}
+
+.prequal-flow .btn,
+.prequal-flow .next-button,
+.prequal-flow .submit-button,
+.prequal-flow .back-button {
+  margin-top: 16px;
+  margin-bottom: 32px;
+  padding: 14px 28px;
+}
+
+@media (max-width: 640px) {
+  .prequal-flow input,
+  .prequal-flow select,
+  .prequal-flow textarea {
+    margin-bottom: 28px;
+    padding: 16px 14px;
+  }
+
+  .prequal-flow .btn,
+  .prequal-flow .next-button {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    padding: 16px 32px;
+  }
+}
