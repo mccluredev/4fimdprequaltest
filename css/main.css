@@ -340,9 +340,7 @@ body.submitted #completion-screen {
   width: 100%;
   height: 8px;
   border-radius: 4px;
-  background: #eee;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+  background: #e2e8f0;
   outline: none;
   -webkit-appearance: none;
   appearance: none;
@@ -350,6 +348,7 @@ body.submitted #completion-screen {
   position: relative;
   z-index: 2;
 }
+
 
 .term-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
