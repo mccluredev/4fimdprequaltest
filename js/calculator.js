@@ -263,15 +263,15 @@ document.addEventListener('DOMContentLoaded', function() {
             currentTerm.textContent = `${termSlider.value} months`;
         }
 
-        function updateSliderFill(slider) {
-            const min = parseFloat(slider.min);
-            const max = parseFloat(slider.max);
-            const val = parseFloat(slider.value);
+        // function updateSliderFill(slider) {
+        //    const min = parseFloat(slider.min);
+          //  const max = parseFloat(slider.max);
+          //  const val = parseFloat(slider.value);
         
-            const percent = ((val - min) / (max - min)) * 100;
+         //   const percent = ((val - min) / (max - min)) * 100;
         
-            slider.style.background = `linear-gradient(to right, #3182ce 0%, #3182ce ${percent}%, #e2e8f0 ${percent}%, #e2e8f0 100%)`;
-        }
+       //     slider.style.background = `linear-gradient(to right, #3182ce 0%, #3182ce ${percent}%, #e2e8f0 ${percent}%, #e2e8f0 100%)`;
+     //   }
 
         // Form validation
         function validateSection(sectionIndex) {
