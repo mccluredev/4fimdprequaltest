@@ -394,7 +394,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Term slider event listener
         const termSlider = document.getElementById('term-slider');
         termSlider.addEventListener('input', function () {
-            updateSliderFill(termSlider);
+           // updateSliderFill(termSlider);
             updatePaymentCalculator();
         });
 
