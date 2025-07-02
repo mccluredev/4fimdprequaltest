@@ -1,4 +1,3 @@
-
 /* Load AtHauss from Squarespace CDN */
 @font-face {
   font-family: 'AtHauss';
@@ -6,120 +5,6 @@
   font-weight: normal;
   font-style: normal;
 }
-
-html, body {
-  height: 100%;
-  margin: 0;
-}
-
-.prequal-flow {
-  font-family: 'AtHauss', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-  box-sizing: border-box;
-  background-color: var(--color-bg);
-}
-
-/* Hide sections by default */
-.section.hidden {
-  display: none;
-}
-
-/* Style form elements */
-.prequal-flow input[type="text"],
-.prequal-flow input[type="email"],
-.prequal-flow input[type="tel"],
-.prequal-flow input[type="number"],
-.prequal-flow select,
-.prequal-flow textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  margin-bottom: 15px;
-  font-family: 'AtHauss', sans-serif;
-  box-sizing: border-box;
-}
-
-/* Buttons */
-.prequal-flow .next-button,
-.prequal-flow .back-button,
-.prequal-flow .submit-button,
-.prequal-flow .btn {
-  background-color: #2c5282;
-  color: white;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 16px;
-  font-family: 'AtHauss', sans-serif;
-}
-
-.prequal-flow .btn:hover,
-.prequal-flow .next-button:hover,
-.prequal-flow .back-button:hover,
-.prequal-flow .submit-button:hover {
-  background-color: #1a365d;
-}
-
-/* Hide calculator and completion screen by default */
-#payment-calculator,
-#completion-screen,
-#loading-screen {
-  display: none;
-}
-
-/* Show them if body has .submitted class (JavaScript will toggle this) */
-body.submitted #payment-calculator,
-body.submitted #completion-screen {
-  display: block;
-}
-
-/* Progress bar */
-.progress-container {
-  margin-bottom: 20px;
-}
-
-.progress-bar {
-  background-color: #e0e0e0;
-  height: 10px;
-  border-radius: 5px;
-  overflow: hidden;
-}
-
-.progress-bar-fill {
-  background-color: #2c5282;
-  height: 100%;
-  width: 0;
-  transition: width 0.4s ease;
-}
-
-.progress-text {
-  text-align: right;
-  font-size: 14px;
-  margin-top: 4px;
-  color: #333;
-}
-
-/* Responsive form tweaks */
-@media (max-width: 600px) {
-  .prequal-flow {
-    padding: 10px;
-  }
-
-  .prequal-flow .btn {
-    width: 100%;
-    margin-top: 10px;
-  }
-}
-
-/* ================================
-   4Fi Rebranded + Structural Styles
-   ================================ */
 
 :root {
   --brand-ice-blue: #2FCAB2;
@@ -129,7 +14,8 @@ body.submitted #completion-screen {
   --brand-accent-blue: #7AE3D2;
   --brand-indian-red: #DB5461;
   --brand-raisin-black: #202328;
-  --font-primary: 'At Hauss Aero', sans-serif;
+
+  --font-primary: 'AtHauss', sans-serif;
 
   --color-bg: var(--brand-baby-powder);
   --color-text: var(--brand-charcoal);
@@ -138,50 +24,46 @@ body.submitted #completion-screen {
   --color-error: var(--brand-indian-red);
 }
 
-.prequal-flow .hidden {
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.prequal-flow {
+  font-family: var(--font-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: var(--color-bg);
+}
+
+.prequal-flow .hidden,
+.section.hidden {
   display: none !important;
 }
 
 .prequal-flow .container {
   width: 100%;
   max-width: 800px;
-}
-
-.prequal-flow button,
-.prequal-flow .apply-button,
-.prequal-flow .submit-button {
-  background-color: var(--color-accent) !important;
-  color: var(--color-text) !important;
-  border-radius: 9999px !important;
-  font-family: var(--font-primary);
-  font-weight: 600;
-  box-shadow: none;
-  transition: box-shadow 0.3s ease;
-}
-
-.prequal-flow button:hover,
-.prequal-flow .apply-button:hover,
-.prequal-flow .submit-button:hover {
-  box-shadow: 0 4px 12px rgba(47, 202, 178, 0.3);
-}
-
-.prequal-flow .back-button {
-  background-color: var(--color-border) !important;
-  color: white !important;
-}
-
-.prequal-flow .back-button:hover {
-  box-shadow: 0 4px 12px rgba(34, 47, 79, 0.3);
+  padding: 10px;
 }
 
 .prequal-flow input,
 .prequal-flow select,
 .prequal-flow textarea {
-  background-color: white;
-  border-radius: 0.75rem;
+  width: 100%;
+  padding: 10px;
   border: 1px solid #ccc;
+  border-radius: 0.75rem;
   font-family: var(--font-primary);
   color: var(--color-text);
+  box-sizing: border-box;
+  background-color: white;
+  appearance: none;
+  font-size: 1rem;
 }
 
 .prequal-flow input:focus,
@@ -189,6 +71,7 @@ body.submitted #completion-screen {
 .prequal-flow textarea:focus {
   border-color: var(--color-accent);
   box-shadow: 0 0 0 2px rgba(47, 202, 178, 0.2);
+  outline: none;
 }
 
 .prequal-flow label {
@@ -196,80 +79,14 @@ body.submitted #completion-screen {
   font-family: var(--font-primary);
 }
 
-.prequal-flow .progress-bar-fill {
+.prequal-flow .btn,
+.prequal-flow .next-button,
+.prequal-flow .back-button,
+.prequal-flow .submit-button,
+.prequal-flow .apply-button {
   background-color: var(--color-accent);
-}
-
-.prequal-flow .error-input {
-  border-color: var(--color-error) !important;
-  background-color: #fff0f0 !important;
-}
-
-.prequal-flow .spinner {
-  border-top: 5px solid var(--color-accent) !important;
-}
-
-.prequal-flow .payment-display .amount,
-.prequal-flow .rate-info h3,
-.prequal-flow .completion-page h1,
-.prequal-flow .completion-page h3 {
-  color: var(--color-accent) !important;
-}
-
-.prequal-flow .term-slider::-webkit-slider-thumb,
-.prequal-flow .term-slider::-moz-range-thumb {
-  background: var(--color-accent) !important;
-}
-
-.prequal-flow .completion-page h2 {
-  color: var(--color-border);
-}
-
-.prequal-flow .term-labels,
-.prequal-flow .payment-display label {
-  color: var(--color-text) !important;
-}
-
-.prequal-flow input[type="tel"] {
-  letter-spacing: 0.5px;
-}
-
-.prequal-flow input[type="email"] {
-  font-family: var(--font-primary);
-}
-
-/* Responsive Adjustments from WP CSS */
-@media (max-width: 768px) {
-  .prequal-flow .container {
-    width: 100%;
-    padding: 10px;
-    min-width: auto;
-  }
-  .prequal-flow .form-row {
-    flex-direction: column;
-  }
-  .prequal-flow .term-labels {
-    flex-direction: column;
-    align-items: center;
-  }
-  .prequal-flow .amount {
-    font-size: 32px;
-  }
-}
-
-@media (max-width: 640px) {
-  .prequal-flow .payment-display .amount {
-    font-size: 28px;
-  }
-  .prequal-flow .container {
-    padding: 10px;
-  }
-}
-
-.prequal-flow .btn {
-  background-color: var(--color-accent) !important;
-  color: var(--color-text) !important;
-  border-radius: 9999px !important;
+  color: var(--color-text);
+  border-radius: 9999px;
   font-family: var(--font-primary);
   font-weight: 600;
   box-shadow: none;
@@ -283,13 +100,61 @@ body.submitted #completion-screen {
   text-align: center;
 }
 
-.prequal-flow .btn:hover {
+.prequal-flow .btn:hover,
+.prequal-flow .next-button:hover,
+.prequal-flow .submit-button:hover,
+.prequal-flow .apply-button:hover {
   box-shadow: 0 4px 12px rgba(47, 202, 178, 0.3);
 }
 
-.prequal-flow .container {
-  width: 100%;
-  max-width: 800px;
+.prequal-flow .back-button {
+  background-color: var(--color-border);
+  color: white;
+}
+
+.prequal-flow .back-button:hover {
+  box-shadow: 0 4px 12px rgba(34, 47, 79, 0.3);
+}
+
+.prequal-flow .error-input {
+  border-color: var(--color-error);
+  background-color: #fff0f0;
+}
+
+#payment-calculator,
+#completion-screen,
+#loading-screen {
+  display: none;
+}
+
+body.submitted #payment-calculator,
+body.submitted #completion-screen {
+  display: block;
+}
+
+.progress-container {
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  background-color: #e0e0e0;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  background-color: var(--color-accent);
+  height: 100%;
+  width: 0;
+  transition: width 0.4s ease;
+}
+
+.progress-text {
+  text-align: right;
+  font-size: 14px;
+  margin-top: 4px;
+  color: #333;
 }
 
 .card {
@@ -310,6 +175,13 @@ body.submitted #completion-screen {
   color: var(--color-text);
   font-family: var(--font-primary);
   line-height: 1.6;
+}
+
+.card p .btn {
+  display: inline-block;
+  width: auto;
+  padding: 10px 20px;
+  margin-top: 10px;
 }
 
 .payment-display {
@@ -341,29 +213,12 @@ body.submitted #completion-screen {
   height: 8px;
   border-radius: 4px;
   background: #e2e8f0;
-  outline: none;
-  -webkit-appearance: none;
-  appearance: none;
   margin: 20px 0;
   position: relative;
   z-index: 2;
 }
 
-
-.term-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--color-accent);
-  cursor: pointer;
-  border: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  position: relative;
-  z-index: 2;
-}
-
+.term-slider::-webkit-slider-thumb,
 .term-slider::-moz-range-thumb {
   width: 20px;
   height: 20px;
@@ -392,74 +247,11 @@ body.submitted #completion-screen {
   margin-top: 20px;
 }
 
-.prequal-flow .btn {
-  background-color: var(--color-accent) !important;
-  color: var(--color-text) !important;
-  border-radius: 9999px !important;
-  font-family: var(--font-primary);
-  font-weight: 600;
-  box-shadow: none;
-  transition: box-shadow 0.3s ease;
-  padding: 12px 24px;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  text-decoration: none;
-  display: inline-block;
-  text-align: center;
-}
-
-.prequal-flow .btn:hover {
-  box-shadow: 0 4px 12px rgba(47, 202, 178, 0.3);
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .prequal-flow .container {
-    width: 100%;
-    padding: 10px;
-    min-width: auto;
-  }
-  .prequal-flow .form-row {
-    flex-direction: column;
-  }
-  .prequal-flow .term-labels {
-    flex-direction: column;
-    align-items: center;
-  }
-  .prequal-flow .amount {
-    font-size: 32px;
-  }
-}
-
-@media (max-width: 640px) {
-  .prequal-flow .payment-display .amount {
-    font-size: 28px;
-  }
-  .prequal-flow .container {
-    padding: 10px;
-  }
-}
-
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-select,
-textarea {
-  width: 100%;
-  padding: 10px;
-  font-size: 1rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  appearance: none;
-}
-
 .button-container {
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  flex-wrap: wrap; /* ensures responsiveness */
+  flex-wrap: wrap;
 }
 
 .button-container button {
@@ -467,3 +259,25 @@ textarea {
   max-width: 48%;
 }
 
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .prequal-flow .form-row {
+    flex-direction: column;
+  }
+
+  .prequal-flow .term-labels {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .payment-display .amount {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  .payment-display .amount {
+    font-size: 28px;
+  }
+}
+""")
