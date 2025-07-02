@@ -382,6 +382,7 @@ body.submitted #completion-screen {
   font-family: var(--font-primary);
   color: var(--color-text);
   font-size: 14px;
+  margin-top: 10px;
 }
 
 .disclaimer {
@@ -439,3 +440,30 @@ body.submitted #completion-screen {
     padding: 10px;
   }
 }
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  appearance: none;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap; /* ensures responsiveness */
+}
+
+.button-container button {
+  flex: 1 1 auto;
+  max-width: 48%;
+}
+
