@@ -208,34 +208,7 @@
 </div>
 </div>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const sections = document.querySelectorAll('.section');
-      let current = 0;
-      if (sections.length) sections[0].classList.add('active');
 
-      const updateVisibility = (index) => {
-        sections.forEach((sec, i) => {
-          sec.classList.toggle('hidden', i !== index);
-          sec.classList.toggle('active', i === index);
-        });
-      };
-
-      document.querySelectorAll('.next-button').forEach(btn => {
-        btn.addEventListener('click', () => {
-          if (current < sections.length - 1) current++;
-          updateVisibility(current);
-        });
-      });
-
-      document.querySelectorAll('.back-button').forEach(btn => {
-        btn.addEventListener('click', () => {
-          if (current > 0) current--;
-          updateVisibility(current);
-        });
-      });
-    });
-  </script>
 <script defer="" src="js/pre-qual.js"></script>
 </body>
 </html>
