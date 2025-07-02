@@ -263,6 +263,16 @@ document.addEventListener('DOMContentLoaded', function() {
             currentTerm.textContent = `${termSlider.value} months`;
         }
 
+        function updateSliderFill(slider) {
+            const min = parseFloat(slider.min);
+            const max = parseFloat(slider.max);
+            const val = parseFloat(slider.value);
+        
+            const percent = ((val - min) / (max - min)) * 100;
+        
+            slider.style.background = `linear-gradient(to right, #3182ce 0%, #3182ce ${percent}%, #e2e8f0 ${percent}%, #e2e8f0 100%)`;
+        }
+
         // Form validation
         function validateSection(sectionIndex) {
             const section = sections[sectionIndex];
@@ -383,7 +393,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Term slider event listener
         const termSlider = document.getElementById('term-slider');
-        termSlider.addEventListener('input', updatePaymentCalculator);
+        termSlider.addEventListener('input', function () {
+            updateSliderFill(termSlider);
+            updatePaymentCalculator();
+        });
+
 
         function updateProgress() {
             const progress = ((currentSection + 1) / sections.length) * 100;
