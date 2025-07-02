@@ -46,21 +46,11 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // FIXED: Use direct color value instead of CSS custom property in JS
-      const accentColor = '#2FCAB2';
-      
       const termSlider = document.getElementById('term-slider');
       const min = +termSlider.min;
       const max = +termSlider.max;
 
-      function updateSliderFill() {
-        const val = +termSlider.value;
-        const percentage = ((val - min) / (max - min)) * 100;
-        // FIXED: Use direct color value
-        termSlider.style.background = `linear-gradient(to right, ${accentColor} ${percentage}%, #eee ${percentage}%)`;
-      }
-
-      // Your localStorage logic
+      // LocalStorage data
       const loanAmount = localStorage.getItem('loan_amount') || '$0';
       const purpose = localStorage.getItem('loan_purpose') || 'Not specified';
 
@@ -91,8 +81,7 @@
       }
 
       updateTermLabels(minTerm, maxTerm, termSlider.value);
-      updateSliderFill(); // FIXED: Call this after setting up the slider
-      
+
       monthlyPaymentDisplay.textContent = formatCurrency(
         calculateMonthlyPayment(amountValue, estimatedRate, +termSlider.value)
       );
@@ -103,7 +92,6 @@
         monthlyPaymentDisplay.textContent = formatCurrency(
           calculateMonthlyPayment(amountValue, estimatedRate, term)
         );
-        updateSliderFill(); // FIXED: Update fill on slider change
       });
 
       // Clean up localStorage
@@ -139,7 +127,6 @@
       }
 
       function updateTermLabels(min, max, current) {
-        // FIXED: Update specific elements instead of using querySelectorAll
         document.getElementById('min-term').textContent = `${min} months`;
         document.getElementById('max-term').textContent = `${max} months`;
         document.getElementById('current-term').textContent = `${current} months`;
