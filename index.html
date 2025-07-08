@@ -70,10 +70,11 @@
 </div>
 <div class="progress-text">Step 1 of 4</div>
 </div>
-<form action="<form action="https://test.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8" id="prequalForm" method="POST" target="_top">
-<input name="oid" type="hidden" value="00DQL00000F5hdB"/>
-<input name="retURL" type="hidden" value="https://prequaltest.4fimd.com/complete/?submitted=true"/>
+<form action="https://test.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&orgId=00DQL00000F5hdB" method="POST">
+<input type=hidden name="oid" value="00DQL00000F5hdB">
+<input type=hidden name="retURL" value="http://prequaltest.4fimd.com/complete/?submitted=true">
 <input name="lead_source" type="hidden" value="Web to Lead"/>
+    
 <!-- Section 1: Loan Info -->
 <div class="section" id="section-1">
 <h2>Loan Information</h2>
